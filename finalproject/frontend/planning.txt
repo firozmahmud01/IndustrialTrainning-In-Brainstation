@@ -1,0 +1,31 @@
+Client Requirement:
+    baby food will be available
+    baby sitter will be also available
+    two kind of user will be there
+        one is normal user who will buy the product
+        another is babysitter itself
+    normal user can buy any product or can commiunicate with babysitter
+    baby sitter only can update their profile and could have a contuct number on it
+
+
+Frontend Project Planning:
+    home page will check user and show normal or babysitter page
+    in normal
+        like any ecommerce site it will have a search bar.some product and tab layout with babysitter profile
+        at the end there will be a ordinary footer
+        from home page people can see all product by clicking on see more.It will also work for babysitter
+    there will be eleven page for normal
+        1.home page-link
+        2.see all for product(same as search)-link
+        3.see all for babysitter-link
+        4.see details for product-link
+        5.see details for babysitter-link
+        6.cart list-link
+        7.purchase-link
+        8.track product-link
+        9.rating product-link
+        10.login or signup-link
+    there will be two page for babysitter
+        1.login page-link
+        2.profile show or update page-link
+    

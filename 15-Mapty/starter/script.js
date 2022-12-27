@@ -163,3 +163,16 @@ navigator.geolocation.getCurrentPosition((pos)=>{
     alert('This app will not work until you allow your location.')
     document.location.reload();
 })
+
+
+
+
+
+
+
+
+
+
+
+// 82521afd-2607-44c0-96c4-e0502f4d673b
+// the remote end hung up unexpectedly
