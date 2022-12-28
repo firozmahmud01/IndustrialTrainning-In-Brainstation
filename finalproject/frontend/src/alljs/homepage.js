@@ -1,9 +1,9 @@
 //icon,name,cart and login on the top==done
 //search with image background==done
 //little details about baby food==done
-//small list of food website supply==
-//tab system with babysitter profile details
-//footer
+//small list of food website supply==done
+//tab system with babysitter profile details==done
+//footer==done
 
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
@@ -21,10 +21,12 @@ function SearchBar(){
         boxShadow: '0 0 8px 8px white inset'
         ,width:'100%' ,height:'300px'
         }} >
+            <Card sx={{maxWidth:'100%',opacity:0.5}}>
+                <CardMedia 
+                sx={{height:'300px'}}
+                image={SearchBack}/>
+            </Card>
             
-            <img style={{ 
-                
-                position:'absolute',height:'300px',width:'100%',opacity:'0.5'}} src={SearchBack}></img> 
             
         <Typography variant='h3' 
         style={{
@@ -180,7 +182,7 @@ return (
     <div style={{margin:"40px"}}>
         <Grid container >
             <Grid item xs={6}>
-        <Typography variant='h5' sx={{marginBottom:'30px'}}>Baby Food:</Typography>
+        <Typography variant='h5' sx={{marginBottom:'30px'}}>Child Acssosories:</Typography>
         </Grid>
         <Grid item xs={6}>
             <Typography onClick={()=>{document.location="/product"}} color="blueviolet" style={{textAlign:'right' ,cursor:'pointer'}}>See More</Typography>
@@ -248,10 +250,10 @@ function SitterItem({id,name,profilepic,education,experience,age,gender}){
                 </Grid>
 <Grid item xs={12}>
     <div style={{margin:'30px'}}>
-                <Button variant='contained' sx={{marginLeft:'100%',
+                 <Button variant='contained' sx={{marginLeft:'100%',
                 transform:'translate(-100%)'}}
-                onClick={()=>{document.location="/babysitter/details?q="+id}}
-                >Details</Button>
+                // onClick={()=>{document.location="/babysitter/details?q="+id}}
+                >Details</Button> 
                 </div>
                 </Grid>
             </Grid>
@@ -344,7 +346,7 @@ function goToSlide(slide) {
 function Footer(){
 return (<div style={{display:'block',marginTop:'300px',width:'100%',height:'200px',backgroundColor:'black',position:'relative'}}>
     <div style={{display:'block',top:'50%',position:'absolute',marginLeft:'50%',transform:'translate(-50%,-50%)'}}>
-        <Typography variant='h4' sx={{color:'white'}} textAlign="center">Baby Food</Typography>
+        <Typography variant='h4' sx={{color:'white'}} textAlign="center">Kiddie Corner</Typography>
         <Typography variant='body2' sx={{color:'white'}} textAlign='center'>This website is about<br></br>children food.</Typography>
         <Grid container >
             <Grid item xs={3}>

@@ -31,7 +31,7 @@ root.render(
         <img style={{height:'50px',marginTop:'5px',marginBottom:'5px'}} src={IconImage}></img>
       </IconButton>
       
-      <Typography sx={{cursor: 'pointer' }} onClick={()=>document.location='/'} variant='h6' color={"inherit"}>Baby Food</Typography>
+      <Typography sx={{cursor: 'pointer' }} onClick={()=>document.location='/'} variant='h6' color={"inherit"}>Kiddie Corner</Typography>
 
       <IconButton onClick={()=>document.location='/cart'} edge="end" style={{marginLeft:'auto'}}>
         
