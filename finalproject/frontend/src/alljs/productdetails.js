@@ -15,9 +15,12 @@ import ReactDOM from 'react-dom/client';
 import { Typography, Grid, CardMedia, Card, IconButton, Button} from '@mui/material';
 import {Add, ArrowBack, HorizontalRule} from '@mui/icons-material';
 import BabyBack from '../image/babyback.jpeg'
+import { getfooddetails } from './AllApi';
 
-async function loadDetails(setData){
-
+async function loadDetails(setData,id){
+    let data=await getfooddetails(id);
+    console.log(data);
+    setData(data);
 }
 function QuantityDisplay(){
     const [quatity,setQuantity]=useState(1);
@@ -46,24 +49,24 @@ onClick={()=>setQuantity(quatity-1<1?1:quatity-1)}>
 }
 
 
-function RightOfImage(){
+function RightOfImage({name,rating,brand,prize}){
     
     return (
         <Grid container>
                     <Grid item xs={12}>
-                        <Typography variant='h5'>Product Name</Typography>
+                        <Typography variant='h5'>{name}</Typography>
                     </Grid>
                     <Grid item xs={12} sx={{marginTop:'10px'}}>
-                            <Typography sx={{color:'blue'}}>3.4 ★ (30 ratings)</Typography>
+                            <Typography sx={{color:'blue'}}>{rating} ★ (30 ratings)</Typography>
                     </Grid>
                     <Grid item xs={12} >
-                            <Typography>Brand: No brand</Typography>
+                            <Typography>Brand: {brand}</Typography>
                     </Grid>
                     <Grid item xs={12} >
                         <PointSection/>
                     </Grid>
                     <Grid sx={{marginTop:'20px',marginBottom:'20px'}} item xs={12} >
-                        <Typography variant='h4' sx={{marginLeft:'30px'}} color="red" >৳ 2400</Typography>
+                        <Typography variant='h4' sx={{marginLeft:'30px'}} color="red" >৳ {prize}</Typography>
                     </Grid>
                     <Grid xs={12} item>
                         <QuantityDisplay/>
@@ -94,7 +97,7 @@ function PointSection(){
     </ul>);
 }
 
-function Upperside(){
+function Upperside({img,rating,name,review,prize}){
     return (
         <div style={{margin:'30px'}}>
         <Grid container spacing={2} >
@@ -102,13 +105,13 @@ function Upperside(){
                 <Card sx={{maxWidth:'100%'}}>
                     <CardMedia 
                     sx={{ height: '430px' }}
-                    image={BabyBack}
+                    image={img}
                     />
                     
                 </Card>
             </Grid>
             <Grid item xs={6}>
-                <RightOfImage/>
+                <RightOfImage rating={rating}name={name}review={review} prize={prize}/>
             </Grid>
         
         </Grid>
@@ -152,7 +155,7 @@ function ReviewSection(){
 }
 
 export default function Main(){
-    
+    const [data,setData]=useState(undefined)
     const up = new URLSearchParams(document.location.search);
     const pid=up.get('p');
     if(!pid){
@@ -160,14 +163,17 @@ export default function Main(){
         return <h1>Sorry...</h1>
     }
 
-
+    if(!data){
+        loadDetails(setData,pid);
+        console.log(data);
+    }
     return (
         <div>
-            <Upperside/>
+            <Upperside img={data?.img||''} rating={data?.rating||''} name={data?.name||''} review={data?.review||'' } prize={data?.prize||""} />
             <hr style={{marginTop:'60px'}}></hr>
             <Typography style={{margin:'30px'}} fullWidth>BAUET started its journey when the Honorable Prime Minister of the People's Republic of Bangladesh, Sheikh Hasina planned to establish institutions of higher learning governed by the armed forces (primarily, the army) in the rural areas of Bangladesh to impart quality tertiary education within reasonable cost. As planned, the Prime Minister gave necessary directions to initiate the establishment of three universities in Saidpur, Natore and Cumilla. Accordingly, the foundation plaque of BAUET was unveiled on 15 August 2014 by Zunaid Ahmed Palak, the Member of Parliament (MP) from Natore-3 constituency and Minister of State for Information and Communication Technology Division, Bangladesh.</Typography>
             <hr style={{marginTop:'60px'}}></hr>
-            <ReviewSection/>
+            <ReviewSection pid={pid}/>
         </div>
 )
     

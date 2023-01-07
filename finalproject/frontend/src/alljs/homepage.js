@@ -180,16 +180,16 @@ function BabyFoodList(){
     }
 return (
     <div style={{margin:"40px"}}>
-        <Grid container >
+        <Grid container spacing={3}>
             <Grid item xs={6}>
         <Typography variant='h5' sx={{marginBottom:'30px'}}>Child Acssosories:</Typography>
         </Grid>
         <Grid item xs={6}>
             <Typography onClick={()=>{document.location="/product"}} color="blueviolet" style={{textAlign:'right' ,cursor:'pointer'}}>See More</Typography>
         </Grid>
-        <Grid item xs={12} container spacing={3}>
-        {data==undefined?(<BabyFoodItemSkelton/>):data}
-        </Grid>
+        
+        {data==undefined?(<Grid item xs={12}><BabyFoodItemSkelton/></Grid>):data}
+        
         </Grid>
     </div>
 )
@@ -295,7 +295,7 @@ return (
     goToSlide(curSlide);
     
   }}
-            color='primary' sx={{marginLeft:'50%',transform:'translate(-50%)',marginTop:'270%'}}>
+            color='primary' sx={{marginLeft:'50%',transform:'translate(-50%)',marginTop:'170%'}}>
                 <ArrowBack/>
             </Fab>
         </Grid>
@@ -309,7 +309,7 @@ return (
         <Grid item xs={1}>
             <Fab color='primary' sx={{
                 marginLeft:'50%',transform:'translate(-50%)',
-                marginTop:'270%'}}
+                marginTop:'170%'}}
                 onClick={()=>{
                     const slides = document.getElementsByName('scarditem'); 
                     if (curSlide === slides.length - 1) {
