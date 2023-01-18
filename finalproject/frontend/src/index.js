@@ -7,6 +7,8 @@ import Homepage from './alljs/homepage'
 import WorkerProfilePage from './alljs/workerprofile'
 import WorkerLoginPage from './alljs/workerlogin'
 import ProductPage from './alljs/product'
+import LoginPage from './alljs/login'
+import SignupPage from './alljs/signuppage'
 import BabysitterPage from './alljs/babysitter'
 import ProductdetailsPage from './alljs/productdetails'
 import BabysitterDetailsPage from './alljs/babysitterdetails'
@@ -14,7 +16,6 @@ import CartPage from './alljs/cart'
 import PurchasePage from './alljs/purchase'
 import RatingPage from './alljs/rating'
 import ProducttrackingPage from './alljs/producttracking'
-import LoginPage from './alljs/login'
 import NotFound from './alljs/NotFound'
 import {AppBar, Button, IconButton, Toolbar, Typography} from '@mui/material'
 import IconImage from './image/icon.png'
@@ -38,13 +39,27 @@ root.render(
         <ShoppingCart color='secondary'/>
         
       </IconButton>
-      <Button onClick={()=>document.location="/login"} color="inherit" style={{marginLeft:'12px'}}>Login</Button>
+
+      {(()=>{
+        if(!localStorage.getItem('token')){
+          return <Button onClick={()=>document.location="/login"} color="inherit" style={{marginLeft:'12px'}}>Login</Button>
+      }
+      })()}
+      
     </Toolbar>
   </AppBar>
 </div>
 
   <BrowserRouter>
+
   <Routes>
+  <Route path='/login' element={<LoginPage></LoginPage>}>
+  </Route>
+
+  <Route path='/signup' element={<SignupPage></SignupPage>}>
+  </Route>
+
+
   <Route path='/' element={<Homepage></Homepage>}>
 
   </Route>
@@ -78,9 +93,7 @@ root.render(
   <Route path='/product-tracking' element={<ProducttrackingPage></ProducttrackingPage>}>
 
   </Route>
-  <Route path='/login' element={<LoginPage></LoginPage>}>
-    
-  </Route>
+  
   <Route path="*" element={<NotFound/>}/>
   </Routes>
   </BrowserRouter>

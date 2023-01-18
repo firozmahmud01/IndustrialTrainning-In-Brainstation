@@ -14,6 +14,11 @@ const Baby3 =require( '../image/tmpimage/baby3.jpeg')
 const Baby4 =require( '../image/tmpimage/baby4.jpeg')
 const Baby5 =require( '../image/tmpimage/baby5.jpeg')
 const productsofall=[]
+const hostname='http://localhost';
+
+
+
+
 productsofall.push(new productitem('id0','Baby Food',
     Food,
             500,4.2,'Lactozen'));
@@ -52,6 +57,23 @@ exports.getfoodlist=async(start,end,filter)=>{
             // fakeimage,
             //         600,3.8,'Barby'));
     return [...productsofall];
+}
+
+exports.loginuser=async(email,password)=>{
+    let res=await fetch(hostname+'/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+    });
+    return await res.json();
+}
+exports.signupuser=async(email, password, name, phone)=>{
+    let res=await fetch(hostname+'/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, name, phone }),
+    });
+    return await res.json();
 }
 
 exports.getfooddetails=async(productid)=>{
