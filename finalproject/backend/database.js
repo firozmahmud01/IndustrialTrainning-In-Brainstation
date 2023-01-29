@@ -14,6 +14,11 @@ let con = mysql.createConnection({
     console.log("Connected!");
     
     con.query("CREATE TABLE IF NOT EXISTS normaluser(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,email TEXT,pass TEXT,phone TEXT,token TEXT);")
+    con.query("CREATE TABLE IF NOT EXISTS babyproduct(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,img TEXT,price TEXT,brand TEXT,pointmsg TEXT,details TEXT);")
+    con.query("CREATE TABLE IF NOT EXISTS productreview(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,reviewername TEXT,rating TEXT,review TEXT);")
+
+    con.query("CREATE TABLE IF NOT EXISTS babysitter(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,profilepic TEXT,phone TEXT,images TEXT,education TEXT,experience TEXT,details TEXT,age TEXT,gender TEXT,email TEXT,pass TEXT);")
+
     
   });
 
@@ -63,5 +68,25 @@ exports.checkauth=async(user,pass)=>{
     }else{
       return undefined;
     }
+
+}
+
+
+
+exports.getfoodlist=async(start,end)=>{
+  let cmd='SELECT * FROM babyproduct OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;';
+}
+exports.getfooddetails=async(id)=>{
+
+}
+exports.getbabysitteritem=async(start,end)=>{
+
+}
+
+exports.getbabysitterdetails=async(id)=>{
+
+}
+
+exports.getsearch=async(q)=>{
 
 }

@@ -38,7 +38,7 @@ const Login = () => {
         <div style={{
             width:'60%'
             ,marginLeft:'50%'
-            ,marginTop:'40%',
+            ,marginTop:'25%',
             transform:'translate(-50%,-50%)'
             
         }}>

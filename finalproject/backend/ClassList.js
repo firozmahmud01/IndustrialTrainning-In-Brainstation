@@ -19,17 +19,17 @@ exports.filteritem=class{
     }
 }
 exports.reviewitem=class{
-    constructor(id,reviewername,review,rating){
+    constructor(id,reviewername,img,review,rating){
         this.id=id;
         this.reviewername=reviewername;
+        this.img=img;
         this.rating=rating;
         this.review=review;
     }
 }
 exports.productdetails=class{
-    constructor(id,name,img,prize,rating,brand,reviews,pointmsg,details){
+    constructor(id,name,img,prize,rating,brand,reviews,pointmsg){
         this.id=id;
-        this.details=details;
         this.pointmsg=pointmsg;
         this.name=name;
         this.img=img;

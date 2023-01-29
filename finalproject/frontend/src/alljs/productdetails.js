@@ -12,10 +12,10 @@
 
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Typography, Grid, CardMedia, Card, IconButton, Button} from '@mui/material';
+import { Typography, Grid, CardMedia, Card, IconButton, Button, FormControl, Rating, FormHelperText, TextField} from '@mui/material';
 import {Add, ArrowBack, HorizontalRule} from '@mui/icons-material';
 import BabyBack from '../image/babyback.jpeg'
-import { getfooddetails } from './AllApi';
+import { getfooddetails, submitProductReview } from './AllApi';
 
 async function loadDetails(setData,id){
     let data=await getfooddetails(id);
@@ -171,11 +171,107 @@ export default function Main(){
         <div>
             <Upperside img={data?.img||''} rating={data?.rating||''} name={data?.name||''} review={data?.review||'' } prize={data?.prize||""} />
             <hr style={{marginTop:'60px'}}></hr>
-            <Typography style={{margin:'30px'}} fullWidth>BAUET started its journey when the Honorable Prime Minister of the People's Republic of Bangladesh, Sheikh Hasina planned to establish institutions of higher learning governed by the armed forces (primarily, the army) in the rural areas of Bangladesh to impart quality tertiary education within reasonable cost. As planned, the Prime Minister gave necessary directions to initiate the establishment of three universities in Saidpur, Natore and Cumilla. Accordingly, the foundation plaque of BAUET was unveiled on 15 August 2014 by Zunaid Ahmed Palak, the Member of Parliament (MP) from Natore-3 constituency and Minister of State for Information and Communication Technology Division, Bangladesh.</Typography>
+            <Typography style={{margin:'30px'}} fullWidth>{data?.details}</Typography>
             <hr style={{marginTop:'60px'}}></hr>
+            <SimpleRating/>
             <ReviewSection pid={pid}/>
         </div>
 )
     
     
     }
+
+
+
+    function SimpleRating() {
+        const [starValue, setStarValue] = useState(0);
+        const [starError, setStarError] = useState(false);
+        const [starHelperText, setStarHelperText] = useState('');
+        const [commentValue, setCommentValue] =useState('');
+        const [commentError, setCommentError] =useState(false);
+        const [commentHelperText, setCommentHelperText] =useState('');
+        
+      
+        const handleComment = event => {
+          if (event.target.value.length < 10) {
+            setCommentError(true);
+            setCommentHelperText("Comment should be at least 10 characters long");
+          } else {
+            setCommentError(false);
+            setCommentHelperText("");
+            setCommentValue(event.target.value);
+          }
+        };
+      
+        const handleStar = (event, newValue) => {
+          if (newValue === 0) {
+            setStarError(true);
+            setStarHelperText("Please select at least one star");
+          } else {
+            setStarError(false);
+            setStarHelperText("");
+            setStarValue(newValue);
+          }
+        };
+      
+        const handleSubmit = async (event) => {
+          event.preventDefault();
+          if (starValue === 0) {
+            setStarError(true);
+            setStarHelperText("Please select at least one star");
+          }
+          if (commentValue.length < 10) {
+            setCommentError(true);
+            setCommentHelperText("Comment should be at least 10 characters long");
+          }
+          if (starValue !== 0 && commentValue.length >= 10) {
+            // Your submission code here
+            console.log("Star rating: ", starValue);
+            console.log("Comment: ", commentValue);
+            await submitProductReview(starValue,commentValue);
+            document.location.reload();
+          }
+        };
+      
+        const handleEnter = event => {
+          if (event.key === 'Enter') {
+            handleSubmit(event);
+          }
+        };
+      
+        return (
+            <div style={{margin:'32px'}}>
+                <Typography sx={{marginBottom:'10px'}} variant="h5">Submit your review:</Typography>
+          <form onSubmit={handleSubmit}>
+            <div >
+              <FormControl error={starError}>
+                <Rating
+                  name="simple-controlled"
+                  value={starValue}
+                  onChange={handleStar}
+                />
+                <FormHelperText>{starHelperText}</FormHelperText>
+        </FormControl>
+      </div>
+      
+      <FormControl sx={{width:'80%',marginTop:'20px'}} error={commentError}>
+        <TextField
+          id="outlined-multiline-static"
+          label="Type here"
+          multiline
+          
+          rows={4}
+          variant="outlined"
+          value={commentValue}
+          onChange={handleComment}
+          onKeyPress={handleEnter}
+          helperText={commentHelperText}
+        />
+      </FormControl>
+      <Button variant="contained" sx={{marginLeft:'10px',marginTop:'20px'}} color="primary" onClick={handleSubmit}>
+        Submit
+      </Button>
+    </form>
+    </div>
+  );
+}

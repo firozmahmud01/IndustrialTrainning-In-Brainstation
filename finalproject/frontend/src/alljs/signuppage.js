@@ -52,7 +52,7 @@ const Signup = () => {
             width:'60%'
             ,marginLeft:'50%'
             ,marginTop:'40%',
-            transform:'translate(-50%,-50%)'
+            transform:'translate(-50%,-100%)'
             
         }}>
             

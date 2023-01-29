@@ -33,3 +33,65 @@ r.post('/signup',async(req,res)=>{
         res.json({status:data});
     }
 })
+
+
+    r.get('/foodlist',async(req,res)=>{
+        let {start,end}=req.params
+        if(!start||!end){
+            res.json({status:'Something is missing'})
+            return 
+        }
+
+        
+    })
+
+    r.get('/productdetails',async(req,res)=>{
+        let {id}=req.params
+        if(!id){
+            res.json({status:'Something is missing'})
+            return 
+        }
+
+        
+    })
+
+    r.get('/babysitteritem',async(req,res)=>{
+        let {start,end}=req.params
+        if(!start||end){
+            res.json({status:'Something is missing'})
+            return 
+        }
+
+        
+    })
+
+    r.get('/babysitterdetails',async(req,res)=>{
+        let {id}=req.params
+        if(!id){
+            res.json({status:'Something is missing'})
+            return 
+        }
+
+        
+    })
+
+
+    r.get('/search',async(req,res)=>{
+        let {q}=req.params
+        if(!q){
+            res.json({status:'Something is missing'})
+            return 
+        }
+
+        
+    })
+
+    r.post('/search',async(req,res)=>{
+        let {star,comment,reviewertoken}=req.body
+        if(!star||!comment||!reviewertoken){
+            res.json({status:'Something is missing'})
+            return 
+        }
+
+        
+    })
