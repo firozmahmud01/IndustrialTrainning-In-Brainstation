@@ -27,9 +27,8 @@ exports.reviewitem=class{
     }
 }
 exports.productdetails=class{
-    constructor(id,name,img,prize,rating,brand,reviews,pointmsg,details){
+    constructor(id,name,img,prize,rating,brand,reviews,pointmsg){
         this.id=id;
-        this.details=details;
         this.pointmsg=pointmsg;
         this.name=name;
         this.img=img;
@@ -52,11 +51,10 @@ exports.babysitteritem=class{
     }
 }
 exports.babysitterdetails=class{
-    constructor(id,name,profilepic,phone,images,education,experience,details,age,gender){
+    constructor(id,name,profilepic,phone,education,experience,details,age,gender){
         this.id=id;
         this.phone=phone;
         this.name=name;
-        this.images=images;
         this.profilepic=profilepic;
         this.education=education;
         this.experience=experience;
@@ -84,10 +82,9 @@ exports.orderitem=class{
     }
 }
 exports.userdetails=class{
-    constructor(id,name,img,email,phone,address,password){
+    constructor(id,name,email,phone,address,password){
         this.id=id;
         this.name=name;
-        this.img=img;
         this.email=email;
         this.phone=phone;
         this.address=address;

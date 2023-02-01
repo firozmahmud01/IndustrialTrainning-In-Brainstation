@@ -19,10 +19,9 @@ exports.filteritem=class{
     }
 }
 exports.reviewitem=class{
-    constructor(id,reviewername,img,review,rating){
+    constructor(id,reviewername,review,rating){
         this.id=id;
         this.reviewername=reviewername;
-        this.img=img;
         this.rating=rating;
         this.review=review;
     }
@@ -52,11 +51,10 @@ exports.babysitteritem=class{
     }
 }
 exports.babysitterdetails=class{
-    constructor(id,name,profilepic,phone,images,education,experience,details,age,gender){
+    constructor(id,name,profilepic,phone,education,experience,details,age,gender){
         this.id=id;
         this.phone=phone;
         this.name=name;
-        this.images=images;
         this.profilepic=profilepic;
         this.education=education;
         this.experience=experience;
@@ -84,10 +82,9 @@ exports.orderitem=class{
     }
 }
 exports.userdetails=class{
-    constructor(id,name,img,email,phone,address,password){
+    constructor(id,name,email,phone,address,password){
         this.id=id;
         this.name=name;
-        this.img=img;
         this.email=email;
         this.phone=phone;
         this.address=address;

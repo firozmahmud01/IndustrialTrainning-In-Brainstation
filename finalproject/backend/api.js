@@ -1,5 +1,5 @@
 const express=require('express');
-const { checkauth, createUser } = require('./database');
+const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem } = require('./database');
 const r=express.Router()
 module.exports= r;
 
@@ -41,7 +41,12 @@ r.post('/signup',async(req,res)=>{
             res.json({status:'Something is missing'})
             return 
         }
-
+        let data=await getfoodlist(start,end)
+        if(data){
+            res.json({status:"OK",data})
+        }else{
+            res.json({status:'No product found!!!'})
+        }
         
     })
 
@@ -50,6 +55,13 @@ r.post('/signup',async(req,res)=>{
         if(!id){
             res.json({status:'Something is missing'})
             return 
+        }
+
+        let data=await getfooddetails(id);
+        if(data){
+            res.json({status:'OK',data})
+        }else{
+            res.json({status:'No product found with this id!!!'})
         }
 
         
@@ -61,7 +73,12 @@ r.post('/signup',async(req,res)=>{
             res.json({status:'Something is missing'})
             return 
         }
-
+        let data=await getbabysitteritem(start,end);
+        if(data){
+            res.json({status:'OK',data})
+        }else{
+            res.json({status:'No babysitter found for now'})
+        }
         
     })
 
@@ -70,6 +87,14 @@ r.post('/signup',async(req,res)=>{
         if(!id){
             res.json({status:'Something is missing'})
             return 
+        }
+
+
+        let data=await getbabysitterdetails(id);
+        if(data){
+            res.json({status:'OK',data})
+        }else{
+            res.json({status:'No babysitter found with this id!!!'})
         }
 
         
@@ -86,12 +111,12 @@ r.post('/signup',async(req,res)=>{
         
     })
 
-    r.post('/search',async(req,res)=>{
+    r.post('/addreview',async(req,res)=>{
         let {star,comment,reviewertoken}=req.body
         if(!star||!comment||!reviewertoken){
             res.json({status:'Something is missing'})
             return 
         }
-
+        res.json({status:"OK"})
         
     })
