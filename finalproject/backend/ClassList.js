@@ -27,7 +27,7 @@ exports.reviewitem=class{
     }
 }
 exports.productdetails=class{
-    constructor(id,name,img,prize,rating,brand,reviews,pointmsg){
+    constructor(id,name,img,prize,rating,brand,reviews,pointmsg,details){
         this.id=id;
         this.pointmsg=pointmsg;
         this.name=name;
@@ -36,7 +36,7 @@ exports.productdetails=class{
         this.rating=rating;
         this.brand=brand;
         this.reviews=reviews;
-
+        this.details=details
     }
 }
 exports.babysitteritem=class{
@@ -57,6 +57,7 @@ exports.babysitterdetails=class{
         this.name=name;
         this.profilepic=profilepic;
         this.education=education;
+        this.details=details;
         this.experience=experience;
         this.details=details;
         this.age=age;

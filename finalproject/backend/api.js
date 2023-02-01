@@ -1,5 +1,5 @@
 const express=require('express');
-const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem } = require('./database');
+const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood } = require('./database');
 const r=express.Router()
 module.exports= r;
 
@@ -36,7 +36,7 @@ r.post('/signup',async(req,res)=>{
 
 
     r.get('/foodlist',async(req,res)=>{
-        let {start,end}=req.params
+        let {start,end}=req.query
         if(!start||!end){
             res.json({status:'Something is missing'})
             return 
@@ -51,7 +51,7 @@ r.post('/signup',async(req,res)=>{
     })
 
     r.get('/productdetails',async(req,res)=>{
-        let {id}=req.params
+        let {id}=req.query
         if(!id){
             res.json({status:'Something is missing'})
             return 
@@ -68,8 +68,8 @@ r.post('/signup',async(req,res)=>{
     })
 
     r.get('/babysitteritem',async(req,res)=>{
-        let {start,end}=req.params
-        if(!start||end){
+        let {start,end}=req.query
+        if(!start||!end){
             res.json({status:'Something is missing'})
             return 
         }
@@ -83,7 +83,7 @@ r.post('/signup',async(req,res)=>{
     })
 
     r.get('/babysitterdetails',async(req,res)=>{
-        let {id}=req.params
+        let {id}=req.query
         if(!id){
             res.json({status:'Something is missing'})
             return 
@@ -102,7 +102,7 @@ r.post('/signup',async(req,res)=>{
 
 
     r.get('/search',async(req,res)=>{
-        let {q}=req.params
+        let {q}=req.query
         if(!q){
             res.json({status:'Something is missing'})
             return 
@@ -119,4 +119,23 @@ r.post('/signup',async(req,res)=>{
         }
         res.json({status:"OK"})
         
+    })
+    r.post('/uploadfood',async(req,res)=>{
+        let {name,img,prize,brand,pointmsg,details,username,password}=req.body
+        if(!name||!img||!prize||!brand||!pointmsg||!details||!username||!password){
+            res.json({status:'You missied something'})
+            return 
+        }
+        if(username=='admin'&&password=='admin'){
+
+        let data=await uploadfood(name,img,prize,brand,pointmsg,details)
+        if(data){
+            res.json({status:'OK'})
+        }else{
+            res.json({status:'Failed to upload'})
+        }
+    }else{
+        res.json({status:'Wrong username or password'})
+    }
+
     })

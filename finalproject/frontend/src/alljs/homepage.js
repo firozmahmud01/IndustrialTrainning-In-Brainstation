@@ -11,7 +11,7 @@ import SearchBack from '../image/searchback.jpeg'
 import {InputAdornment, TextField, Typography,Button, Grid, Card, CardMedia, CardContent, IconButton, Fab, Skeleton} from '@mui/material';
 import {ArrowBack, ArrowForward, ArrowLeft, Facebook, Google, Search, SettingsSystemDaydreamTwoTone, Twitter, YouTube} from '@mui/icons-material';
 import BabyBack from '../image/babyback.jpeg'
-import { getbabysitteritem, getfoodlist } from './AllApi';
+import { getbabysitteritem, getfoodlist, hostname } from './AllApi';
 
 function SearchBar(){
     const [search,setSearch]=useState('')
@@ -110,11 +110,11 @@ return (
 }
 function BabyFoodItemSkelton(){
     let d=[]
-    for(let i=0;i<8;i++){
-        d.push(<Grid item key={"uid"+i} xs={3}>
+    for(let i=0;i<12;i++){
+        d.push(<Grid item key={"uid"+i} xs={3} md={2}>
             
             <Card 
-         sx={{ maxWidth: 200,cursor: 'pointer' }}>
+         sx={{ maxWidth: 250,cursor: 'pointer' }}>
             
 <CardContent>
 
@@ -134,7 +134,7 @@ function BabyFoodItemSkelton(){
         </Card>
         </Grid>)
     }
-    return d;
+    return <Grid container spacing={2}>{d}</Grid>;
 }
 function BabyFoodItem({id,name,prize,rating,img}){
     
@@ -164,12 +164,12 @@ function BabyFoodItem({id,name,prize,rating,img}){
     )
 }
 async function foodloader(setData){
-    let data=await getfoodlist(0,8);
+    let data=await getfoodlist(0,12);
     let d=[]
     for(let i=0;i<data.length;i++){
         d.push(<Grid item key={data[i].id} xs={3}>
             <BabyFoodItem id={data[i].id} name={data[i].name}
-        rating={data[i].rating} prize={data[i].prize} img={data[i].img}/></Grid>);
+        rating={data[i].rating||4.5} prize={data[i].prize} img={hostname+'/images/'+data[i].img}/></Grid>);
     }
     setData(d);
 }
@@ -188,7 +188,7 @@ return (
             <Typography onClick={()=>{document.location="/product"}} color="blueviolet" style={{textAlign:'right' ,cursor:'pointer'}}>See More</Typography>
         </Grid>
         
-        {data==undefined?(<Grid item xs={12}><BabyFoodItemSkelton/></Grid>):data}
+        {data==undefined||data.length<=0?(<Grid item xs={12}><Grid item xs={12}><BabyFoodItemSkelton/></Grid></Grid>):data}
         
         </Grid>
     </div>
@@ -301,9 +301,9 @@ return (
         </Grid>
         <Grid item xs={10}>
             { (()=>{
-                if(data)return data;
-                return (<Skeleton animation="wave"> 
-                <SitterItem id='uid' name="Someone" profilepic={BabyBack} education="HSC" experience={10} age={20} gender='Female'/>
+                if(data&&data.length>0)return data;
+                return (<Skeleton animation="wave" width={"100%"} height={550}> 
+                
              </Skeleton>) })()}
         </Grid>
         <Grid item xs={1}>

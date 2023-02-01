@@ -17,6 +17,7 @@ import PurchasePage from './alljs/purchase'
 import RatingPage from './alljs/rating'
 import ProducttrackingPage from './alljs/producttracking'
 import NotFound from './alljs/NotFound'
+import AdminUpload from './alljs/adminupload'
 import {AppBar, Button, IconButton, Toolbar, Typography} from '@mui/material'
 import IconImage from './image/icon.png'
 import {ShoppingCart} from '@mui/icons-material';
@@ -88,6 +89,10 @@ root.render(
 
   </Route>
   <Route path='/rating' element={<RatingPage></RatingPage>}>
+
+  </Route>
+  
+  <Route path='/admin/upload' element={<AdminUpload/>}>
 
   </Route>
   <Route path='/product-tracking' element={<ProducttrackingPage></ProducttrackingPage>}>

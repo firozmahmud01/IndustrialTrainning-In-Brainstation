@@ -1,4 +1,4 @@
-const { TimerSharp } = require("@mui/icons-material");
+
 
 exports.productitem=class {
     constructor(id,name,img,prize,rating,brand){
@@ -27,10 +27,11 @@ exports.reviewitem=class{
     }
 }
 exports.productdetails=class{
-    constructor(id,name,img,prize,rating,brand,reviews,pointmsg){
+    constructor(id,name,img,prize,rating,brand,reviews,pointmsg,details){
         this.id=id;
         this.pointmsg=pointmsg;
         this.name=name;
+        this.details=details;
         this.img=img;
         this.prize=prize;
         this.rating=rating;

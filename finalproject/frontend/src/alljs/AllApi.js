@@ -18,10 +18,27 @@ const Baby5 =require( '../image/tmpimage/baby5.jpeg')
 
 const hostname='http://localhost';
 
+exports.hostname=hostname;
 
 
-
-
+exports.uploadbabyfood=async(da,setIsLoading)=>{
+    da.username=prompt("Input Admin's Username:")
+    da.password=prompt('Input Admin\'s Password:');
+        const res = await fetch(hostname+'/api/uploadfood', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(da),
+        });
+        if (!res.ok) throw new Error(res.statusText);
+        setIsLoading(false);
+        let data=await res.json();
+        if(data?.status||0=='OK'){
+            document.location='/';
+        }else{
+            alert(data.status)
+        }
+      
+}
 
 
 exports.getfoodlist=async(start,end)=>{

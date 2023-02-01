@@ -1,21 +1,11 @@
-//get the value of p as get request parameter==done
-//get product details using p value
-//show some point about this product==done
-//show an image of the product on top==done
-//show name beside image==done
-//show rating and brand name bellow the name==done
-//prize==done
-//quatity==done
-//add to cart==done
-//details bellow the image==done
-//review section==
+
 
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Typography, Grid, CardMedia, Card, IconButton, Button, FormControl, Rating, FormHelperText, TextField} from '@mui/material';
 import {Add, ArrowBack, HorizontalRule} from '@mui/icons-material';
 import BabyBack from '../image/babyback.jpeg'
-import { getfooddetails, submitProductReview } from './AllApi';
+import { getfooddetails, hostname, submitProductReview } from './AllApi';
 
 async function loadDetails(setData,id){
     let data=await getfooddetails(id);
@@ -49,7 +39,7 @@ onClick={()=>setQuantity(quatity-1<1?1:quatity-1)}>
 }
 
 
-function RightOfImage({name,rating,brand,prize}){
+function RightOfImage({name,rating,brand,prize,pointmsg}){
     
     return (
         <Grid container>
@@ -63,7 +53,7 @@ function RightOfImage({name,rating,brand,prize}){
                             <Typography>Brand: {brand}</Typography>
                     </Grid>
                     <Grid item xs={12} >
-                        <PointSection/>
+                        <PointSection pointmsg={pointmsg}/>
                     </Grid>
                     <Grid sx={{marginTop:'20px',marginBottom:'20px'}} item xs={12} >
                         <Typography variant='h4' sx={{marginLeft:'30px'}} color="red" >৳ {prize}</Typography>
@@ -78,13 +68,10 @@ function RightOfImage({name,rating,brand,prize}){
     )
 }
 
-function PointSection(){
+function PointSection({pointmsg}){
     return (<ul>
         {(()=>{
-            let da=[]
-            for(let i=0;i<5;i++){
-                da.push("This product is good.")
-            }
+            let da=pointmsg.split(',')
 
 
             let res=[]
@@ -97,7 +84,7 @@ function PointSection(){
     </ul>);
 }
 
-function Upperside({img,rating,name,review,prize}){
+function Upperside({img,rating,name,review,prize,pointmsg}){
     return (
         <div style={{margin:'30px'}}>
         <Grid container spacing={2} >
@@ -111,7 +98,7 @@ function Upperside({img,rating,name,review,prize}){
                 </Card>
             </Grid>
             <Grid item xs={6}>
-                <RightOfImage rating={rating}name={name}review={review} prize={prize}/>
+                <RightOfImage rating={rating}name={name}review={review} prize={prize} pointmsg={pointmsg}/>
             </Grid>
         
         </Grid>
@@ -169,7 +156,7 @@ export default function Main(){
     }
     return (
         <div>
-            <Upperside img={data?.img||''} rating={data?.rating||''} name={data?.name||''} review={data?.review||'' } prize={data?.prize||""} />
+            <Upperside img={(data?.img)?hostname+'/images/'+data?.img:''} rating={data?.rating||'4.5'} name={data?.name||''} review={data?.review||'' } prize={data?.prize||""} pointmsg={data?.pointmsg||''}/>
             <hr style={{marginTop:'60px'}}></hr>
             <Typography style={{margin:'30px'}} fullWidth>{data?.details}</Typography>
             <hr style={{marginTop:'60px'}}></hr>
