@@ -1,5 +1,5 @@
 const express=require('express');
-const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood } = require('./database');
+const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood, addreview, checktoken } = require('./database');
 const r=express.Router()
 module.exports= r;
 
@@ -19,6 +19,7 @@ r.post('/login',async(req,res)=>{
     }
 
 })
+
 r.post('/signup',async(req,res)=>{
     let {email,password,name,phone}=req.body;
     if(!email||!password||!name||!phone){
@@ -112,13 +113,18 @@ r.post('/signup',async(req,res)=>{
     })
 
     r.post('/addreview',async(req,res)=>{
-        let {star,comment,reviewertoken}=req.body
-        if(!star||!comment||!reviewertoken){
+        let {star,comment,reviewertoken,productid}=req.body
+        if(!star||!comment||!reviewertoken||productid){
             res.json({status:'Something is missing'})
             return 
         }
-        res.json({status:"OK"})
-        
+        let user=await checktoken(reviewertoken)
+        if(user?.name){
+            await addreview(start,comment,user.name,productid);
+            res.json({status:'OK'})
+        }else{
+            res.json({status:'User is not verified!'})
+        }
     })
     r.post('/uploadfood',async(req,res)=>{
         let {name,img,prize,brand,pointmsg,details,username,password}=req.body
@@ -139,3 +145,5 @@ r.post('/signup',async(req,res)=>{
     }
 
     })
+
+  

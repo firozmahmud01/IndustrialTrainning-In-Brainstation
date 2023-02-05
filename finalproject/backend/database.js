@@ -162,6 +162,21 @@ exports.uploadfood=async(name,img,prize,brand,pointmsg,details)=>{
     console.log(e)
   }
 
+}
 
+exports.addreview=async(star,comment,personname,productid)=>{
+let cmd='INSERT INTO productreview (productid,reviewername,rating,review) VALUES(?,?,?,?);'
+let res= await getData(cmd,[productid,personname,star,comment])
+let r=await getData('SELECT rating from productreview WHERE productid=?;',[productid])
+let total=0;
+if(total.length>0){
+for (let i=0;i<r.length;i++){
+    total+=+r[0].rating
+  }
+  total/=r.length;
+}
+await getData('UPDATE babyproduct SET rating=? WHERE uid=?;',[total,productid])
+
+return 'OK';
 
 }
