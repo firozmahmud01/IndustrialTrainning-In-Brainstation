@@ -120,11 +120,15 @@ exports.getsearch=async(query,filter)=>{
 }
 
 
-exports.submitProductReview=async (star,comment)=>{
+exports.submitProductReview=async (star,comment,productid)=>{
+    if(!localStorage.getItem('token')){
+        alert('Login first.');
+        return ;
+    }
     let res=await fetch(hostname+'/api/addreview', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ star, comment ,reviewertoken:localStorage.getItem('token')}),
+        body: JSON.stringify({ star, comment ,reviewertoken:localStorage.getItem('token'),productid}),
     });
     return await res.json();
 }

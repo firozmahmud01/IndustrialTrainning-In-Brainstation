@@ -160,7 +160,7 @@ export default function Main(){
             <hr style={{marginTop:'60px'}}></hr>
             <Typography style={{margin:'30px'}} fullWidth>{data?.details}</Typography>
             <hr style={{marginTop:'60px'}}></hr>
-            <SimpleRating/>
+            <SimpleRating productid={pid}/>
             <ReviewSection pid={pid}/>
         </div>
 )
@@ -170,7 +170,7 @@ export default function Main(){
 
 
 
-    function SimpleRating() {
+    function SimpleRating({productid}) {
         const [starValue, setStarValue] = useState(0);
         const [starError, setStarError] = useState(false);
         const [starHelperText, setStarHelperText] = useState('');
@@ -179,17 +179,7 @@ export default function Main(){
         const [commentHelperText, setCommentHelperText] =useState('');
         
       
-        const handleComment = event => {
-          if (event.target.value.length < 10) {
-            setCommentError(true);
-            setCommentHelperText("Comment should be at least 10 characters long");
-          } else {
-            setCommentError(false);
-            setCommentHelperText("");
-            setCommentValue(event.target.value);
-          }
-        };
-      
+        
         const handleStar = (event, newValue) => {
           if (newValue === 0) {
             setStarError(true);
@@ -215,7 +205,7 @@ export default function Main(){
             // Your submission code here
             console.log("Star rating: ", starValue);
             console.log("Comment: ", commentValue);
-            await submitProductReview(starValue,commentValue);
+            await submitProductReview(starValue,commentValue,productid);
             document.location.reload();
           }
         };
@@ -250,7 +240,9 @@ export default function Main(){
           rows={4}
           variant="outlined"
           value={commentValue}
-          onChange={handleComment}
+          onChange={(e)=>{
+            setCommentValue(e.target.value)
+          }}
           onKeyPress={handleEnter}
           helperText={commentHelperText}
         />
