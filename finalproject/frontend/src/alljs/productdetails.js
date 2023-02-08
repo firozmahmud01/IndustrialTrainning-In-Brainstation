@@ -39,7 +39,7 @@ onClick={()=>setQuantity(quatity-1<1?1:quatity-1)}>
 }
 
 
-function RightOfImage({name,rating,brand,prize,pointmsg}){
+function RightOfImage({name,rating,brand,prize,pointmsg,reviews}){
     
     return (
         <Grid container>
@@ -47,7 +47,7 @@ function RightOfImage({name,rating,brand,prize,pointmsg}){
                         <Typography variant='h5'>{name}</Typography>
                     </Grid>
                     <Grid item xs={12} sx={{marginTop:'10px'}}>
-                            <Typography sx={{color:'blue'}}>{rating} ★ (30 ratings)</Typography>
+                            <Typography sx={{color:'blue'}}>{rating} ★ ({reviews.length} ratings)</Typography>
                     </Grid>
                     <Grid item xs={12} >
                             <Typography>Brand: {brand}</Typography>
@@ -129,11 +129,12 @@ function ReviewItem({rating,name,review}){
         </Grid>
     </div>)
 }
-function ReviewSection(){
+function ReviewSection({reviews}){
     let d=[]
     for (let i=0;i<10;i++){
-        d.push(<ReviewItem key={"key"+i} name="Someone Reviewer" rating={i%5==0?1:i%5}
-        review={"This product is realy good.I have been using it since my child birt."}/>)
+        let review=reviews[i]
+        d.push(<ReviewItem key={review.id} name={review.reviewername} rating={review.rating}
+        review={review.review}/>)
     }
     return (<div style={{margin:50}}>
         {d}
@@ -156,12 +157,12 @@ export default function Main(){
     }
     return (
         <div>
-            <Upperside img={(data?.img)?hostname+'/images/'+data?.img:''} rating={data?.rating||'4.5'} name={data?.name||''} review={data?.review||'' } prize={data?.prize||""} pointmsg={data?.pointmsg||''}/>
+            <Upperside img={(data?.img)?hostname+'/images/'+data?.img:''} reviews={data?.reviews||[]} rating={data?.rating||'4.5'} name={data?.name||''} review={data?.review||'' } prize={data?.prize||""} pointmsg={data?.pointmsg||''}/>
             <hr style={{marginTop:'60px'}}></hr>
             <Typography style={{margin:'30px'}} fullWidth>{data?.details}</Typography>
             <hr style={{marginTop:'60px'}}></hr>
             <SimpleRating productid={pid}/>
-            <ReviewSection pid={pid}/>
+            <ReviewSection pid={pid} reviews={data?.reviews||[]}/>
         </div>
 )
     
