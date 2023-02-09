@@ -114,13 +114,13 @@ r.post('/signup',async(req,res)=>{
 
     r.post('/addreview',async(req,res)=>{
         let {star,comment,reviewertoken,productid}=req.body
-        if(!star||!comment||!reviewertoken||productid){
+        if(!star||!comment||!reviewertoken||!productid){
             res.json({status:'Something is missing'})
             return 
         }
         let user=await checktoken(reviewertoken)
         if(user?.name){
-            await addreview(start,comment,user.name,productid);
+            await addreview(star,comment,user.name,productid);
             res.json({status:'OK'})
         }else{
             res.json({status:'User is not verified!'})

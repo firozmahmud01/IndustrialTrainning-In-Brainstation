@@ -44,8 +44,8 @@ async function getData(cmd,arg){
 exports.checktoken=async(token)=>{
   const cmd="SELECT uid,name,email,phone FROM normaluser WHERE token=?;"
   let data=await getData(cmd,[token])
-  if(data?.uid){
-    return data;
+  if(data&&data[0]?.uid){
+    return data[0];
   }else{
     return undefined;
   }
@@ -70,7 +70,7 @@ exports.checkauth=async(user,pass)=>{
     const cmd="SELECT uid FROM normaluser WHERE email=? AND pass=?;"
     let data=await getData(cmd,[user,upass])
     if((data&&data[0]?.uid)||data?.uid){
-      await getData("UPDATE normaluser SET token=? WHERE uid=?;",[salt,data.uid])
+      await getData("UPDATE normaluser SET token=? WHERE uid=?;",[salt,data[0].uid])
       return salt;
     }else{
       return undefined;
@@ -91,13 +91,15 @@ exports.getfoodlist=async(start,end)=>{
   return result;
 }
 exports.getfooddetails=async(id)=>{
-  let cmd='SELECT * FROM babyproduct WHERE uid=?;';
+  let cmd=
+  'SELECT * FROM babyproduct WHERE uid=?;';
   let data=await getData(cmd,[Number(id)])
   if(data.length>0){
     let reviews=[]
     let rev=await getData('SELECT * FROM productreview WHERE productid=?;',[data[0].uid])
-    if(rev.length>0){
-      reviews.push(new reviewitem(rev[0].uid,rev[0].reviewername,rev[0].review,rev[0].rating))
+    for (let i=0;i<rev?.length||0;i++){
+
+      reviews.push(new reviewitem(rev[i].uid,rev[i].reviewername,rev[i].review,rev[i].rating))
     }
     return new productdetails(data[0].uid,data[0].name,data[0].img,data[0].price,data[0].rating,data[0].brand,reviews,data[0].pointmsg,data[0].details)
   }
@@ -169,12 +171,11 @@ let cmd='INSERT INTO productreview (productid,reviewername,rating,review) VALUES
 let res= await getData(cmd,[productid,personname,star,comment])
 let r=await getData('SELECT rating from productreview WHERE productid=?;',[productid])
 let total=0;
-if(total.length>0){
 for (let i=0;i<r.length;i++){
-    total+=+r[0].rating
+    total+=(+r[i].rating)
   }
-  total/=r.length;
-}
+  total=total/r.length;
+
 await getData('UPDATE babyproduct SET rating=? WHERE uid=?;',[total,productid])
 
 return 'OK';

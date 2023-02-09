@@ -39,7 +39,7 @@ onClick={()=>setQuantity(quatity-1<1?1:quatity-1)}>
 }
 
 
-function RightOfImage({name,rating,brand,prize,pointmsg,reviews}){
+function RightOfImage({name,rating,brand,prize,pointmsg,review}){
     
     return (
         <Grid container>
@@ -47,7 +47,7 @@ function RightOfImage({name,rating,brand,prize,pointmsg,reviews}){
                         <Typography variant='h5'>{name}</Typography>
                     </Grid>
                     <Grid item xs={12} sx={{marginTop:'10px'}}>
-                            <Typography sx={{color:'blue'}}>{rating} ★ ({reviews.length} ratings)</Typography>
+                            <Typography sx={{color:'blue'}}>{rating} ★ ({review?.length} ratings)</Typography>
                     </Grid>
                     <Grid item xs={12} >
                             <Typography>Brand: {brand}</Typography>
@@ -84,7 +84,7 @@ function PointSection({pointmsg}){
     </ul>);
 }
 
-function Upperside({img,rating,name,review,prize,pointmsg}){
+function Upperside({img,rating,name,review,prize,pointmsg,brand}){
     return (
         <div style={{margin:'30px'}}>
         <Grid container spacing={2} >
@@ -98,7 +98,7 @@ function Upperside({img,rating,name,review,prize,pointmsg}){
                 </Card>
             </Grid>
             <Grid item xs={6}>
-                <RightOfImage rating={rating}name={name}review={review} prize={prize} pointmsg={pointmsg}/>
+                <RightOfImage rating={rating} name={name} review={review} prize={prize} brand={brand} pointmsg={pointmsg}/>
             </Grid>
         
         </Grid>
@@ -106,6 +106,7 @@ function Upperside({img,rating,name,review,prize,pointmsg}){
         )
 }
 function ReviewItem({rating,name,review}){
+    
     return (
     <div style={{marginTop:'10px'}}>
         <Grid container>
@@ -130,8 +131,9 @@ function ReviewItem({rating,name,review}){
     </div>)
 }
 function ReviewSection({reviews}){
+    
     let d=[]
-    for (let i=0;i<10;i++){
+    for (let i=0;i<reviews.length;i++){
         let review=reviews[i]
         d.push(<ReviewItem key={review.id} name={review.reviewername} rating={review.rating}
         review={review.review}/>)
@@ -153,16 +155,21 @@ export default function Main(){
 
     if(!data){
         loadDetails(setData,pid);
-        console.log(data);
+        return <h1></h1>
     }
     return (
         <div>
-            <Upperside img={(data?.img)?hostname+'/images/'+data?.img:''} reviews={data?.reviews||[]} rating={data?.rating||'4.5'} name={data?.name||''} review={data?.review||'' } prize={data?.prize||""} pointmsg={data?.pointmsg||''}/>
+            <Upperside img={(data?.img)?hostname+'/images/'+data?.img:''} review={data?.reviews||[]} rating={data?.rating||'0'} brand={data?.brand||''} name={data?.name||''} prize={data?.prize||""} pointmsg={data?.pointmsg||''}/>
             <hr style={{marginTop:'60px'}}></hr>
             <Typography style={{margin:'30px'}} fullWidth>{data?.details}</Typography>
             <hr style={{marginTop:'60px'}}></hr>
             <SimpleRating productid={pid}/>
-            <ReviewSection pid={pid} reviews={data?.reviews||[]}/>
+            {(()=>{
+                if(data?.reviews&&data?.reviews.length>0){
+                    return <ReviewSection pid={pid} reviews={data?.reviews||[]}/>
+                }
+            })()}
+            
         </div>
 )
     
@@ -182,6 +189,7 @@ export default function Main(){
       
         
         const handleStar = (event, newValue) => {
+            
           if (newValue === 0) {
             setStarError(true);
             setStarHelperText("Please select at least one star");
@@ -198,12 +206,12 @@ export default function Main(){
             setStarError(true);
             setStarHelperText("Please select at least one star");
           }
-          if (commentValue.length < 10) {
+          if (commentValue.length < 5) {
             setCommentError(true);
-            setCommentHelperText("Comment should be at least 10 characters long");
+            setCommentHelperText("Comment should be at least 5 characters long");
           }
           if (starValue !== 0 && commentValue.length >= 10) {
-            // Your submission code here
+            
             console.log("Star rating: ", starValue);
             console.log("Comment: ", commentValue);
             await submitProductReview(starValue,commentValue,productid);
