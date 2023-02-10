@@ -13,7 +13,7 @@ r.post('/login',async(req,res)=>{
 
     let data=await checkauth(email,password);
     if(data){
-        res.json({token:data});
+        res.json(data);
     }else{
         res.json({status:"Wrong email or password."});
     }
@@ -120,8 +120,12 @@ r.post('/signup',async(req,res)=>{
         }
         let user=await checktoken(reviewertoken)
         if(user?.name){
-            await addreview(star,comment,user.name,productid);
-            res.json({status:'OK'})
+            let data=await addreview(star,comment,user.name,productid,user.uid);
+            if(data){
+                res.json({status:'OK'})
+            }else{
+                res.json({status:'You can not submit review anymore.'})
+            }
         }else{
             res.json({status:'User is not verified!'})
         }

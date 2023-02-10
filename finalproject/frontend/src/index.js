@@ -18,11 +18,86 @@ import RatingPage from './alljs/rating'
 import ProducttrackingPage from './alljs/producttracking'
 import NotFound from './alljs/NotFound'
 import AdminUpload from './alljs/adminupload'
-import {AppBar, Button, IconButton, Toolbar, Typography} from '@mui/material'
+import {AppBar, Avatar, Button, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Typography} from '@mui/material'
 import IconImage from './image/icon.png'
-import {ShoppingCart} from '@mui/icons-material';
+import {Logout, Settings, ShoppingCart} from '@mui/icons-material';
+import { purple } from '@mui/material/colors';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+function AvatarFunction(){
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <div>
+    <IconButton
+    onClick={handleClick}
+    size="small"
+    sx={{ ml: 2 }}
+    aria-controls={open ? 'account-menu' : undefined}
+    aria-haspopup="true"
+    aria-expanded={open ? 'true' : undefined}
+  >
+  <Avatar color="primary" sx={{ bgcolor: purple[500] }}>{(()=>{let x='';let name=localStorage.getItem('user').split(' ');for(let i=0;i<name.length&&i<2;i++){x+=name[i][0]}return x;})()}</Avatar>
+  </IconButton>
+
+<Menu
+  anchorEl={anchorEl}
+  id="account-menu"
+  open={open}
+  onClose={handleClose}
+  onClick={handleClose}
+  PaperProps={{
+    elevation: 0,
+    sx: {
+      overflow: 'visible',
+      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+      mt: 1.5,
+      '& .MuiAvatar-root': {
+        width: 32,
+        height: 32,
+        ml: -0.5,
+        mr: 1,
+      },
+      '&:before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        right: 14,
+        width: 10,
+        height: 10,
+        bgcolor: 'background.paper',
+        transform: 'translateY(-50%) rotate(45deg)',
+        zIndex: 0,
+      },
+    },
+  }}
+  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+>
+
+  <MenuItem onClick={()=>{handleClose();localStorage.removeItem('token');localStorage.removeItem('name');document.location.reload()}}>
+    <ListItemIcon>
+      <Logout fontSize="small" />
+    </ListItemIcon>
+    Logout
+  </MenuItem>
+</Menu>
+</div>
+
+  )
+
+
+
+}
+
 
 root.render(
 <div>
@@ -44,8 +119,9 @@ root.render(
       {(()=>{
         if(!localStorage.getItem('token')){
           return <Button onClick={()=>document.location="/login"} color="inherit" style={{marginLeft:'12px'}}>Login</Button>
-      }
-      })()}
+      }else {
+        return (<AvatarFunction/>)
+      }})()}
       
     </Toolbar>
   </AppBar>

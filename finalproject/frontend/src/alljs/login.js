@@ -27,7 +27,8 @@ const Login = () => {
         const jsonRes =await loginuser(email,password);
         if (jsonRes.token) {
             localStorage.setItem('token', jsonRes.token);
-            alert('Welcome back!')
+            localStorage.setItem('user',jsonRes.name)
+            alert('Welcome back '+jsonRes.name+"!")
             window.location.href = '/';
         } else {
             setError(jsonRes.status);

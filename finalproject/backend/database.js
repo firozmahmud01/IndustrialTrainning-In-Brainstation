@@ -20,7 +20,7 @@ let con = mysql.createConnection({
     
     con.query("CREATE TABLE IF NOT EXISTS normaluser(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,email TEXT,pass TEXT,phone TEXT,token TEXT);")
     con.query("CREATE TABLE IF NOT EXISTS babyproduct(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,img TEXT,price TEXT,brand TEXT,pointmsg TEXT,details TEXT,rating INTEGER DEFAULT 0);")
-    con.query("CREATE TABLE IF NOT EXISTS productreview(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,reviewername TEXT,rating TEXT,review TEXT);")
+    con.query("CREATE TABLE IF NOT EXISTS productreview(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,reviewername TEXT,rating TEXT,review TEXT,token TEXT NOT NULL UNIQUE);")
 
     con.query("CREATE TABLE IF NOT EXISTS babysitter(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,profilepic TEXT,phone TEXT,education TEXT,experience TEXT,details TEXT,age TEXT,gender TEXT,email TEXT,pass TEXT);")
 
@@ -67,11 +67,11 @@ exports.checkauth=async(user,pass)=>{
     let upass=crypto.createHash('sha256').update(pass).digest('base64');
     let salt = crypto.randomBytes(27).toString('hex'); 
     console.log(user,upass)
-    const cmd="SELECT uid FROM normaluser WHERE email=? AND pass=?;"
+    const cmd="SELECT uid,name FROM normaluser WHERE email=? AND pass=?;"
     let data=await getData(cmd,[user,upass])
     if((data&&data[0]?.uid)||data?.uid){
       await getData("UPDATE normaluser SET token=? WHERE uid=?;",[salt,data[0].uid])
-      return salt;
+      return {token:salt,name:data[0].name};
     }else{
       return undefined;
     }
@@ -166,10 +166,16 @@ exports.uploadfood=async(name,img,prize,brand,pointmsg,details)=>{
 
 }
 
-exports.addreview=async(star,comment,personname,productid)=>{
-let cmd='INSERT INTO productreview (productid,reviewername,rating,review) VALUES(?,?,?,?);'
-let res= await getData(cmd,[productid,personname,star,comment])
+exports.addreview=async(star,comment,personname,productid,token)=>{
+let cmd='INSERT INTO productreview (productid,reviewername,rating,review,token) VALUES(?,?,?,?,?);'
+try{
+let res= await getData(cmd,[productid,personname,star,comment,token])
+}catch(e){
+  return ;
+}
+
 let r=await getData('SELECT rating from productreview WHERE productid=?;',[productid])
+
 let total=0;
 for (let i=0;i<r.length;i++){
     total+=(+r[i].rating)

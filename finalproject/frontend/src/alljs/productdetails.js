@@ -214,8 +214,12 @@ export default function Main(){
             
             console.log("Star rating: ", starValue);
             console.log("Comment: ", commentValue);
-            await submitProductReview(starValue,commentValue,productid);
-            document.location.reload();
+            let data=await submitProductReview(starValue,commentValue,productid);
+            if(data.status=='OK'){
+                document.location.reload();
+            }else{
+                alert(data.status)
+            }
           }
         };
       
