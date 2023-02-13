@@ -14,8 +14,8 @@ import ProductdetailsPage from './alljs/productdetails'
 import BabysitterDetailsPage from './alljs/babysitterdetails'
 import CartPage from './alljs/cart'
 import PurchasePage from './alljs/purchase'
+import OrderList from './alljs/orderlist'
 import RatingPage from './alljs/rating'
-import ProducttrackingPage from './alljs/producttracking'
 import NotFound from './alljs/NotFound'
 import AdminUpload from './alljs/adminupload'
 import {AppBar, Avatar, Badge, Button, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Typography} from '@mui/material'
@@ -174,7 +174,7 @@ root.render(
   <Route path='/admin/upload' element={<AdminUpload/>}>
 
   </Route>
-  <Route path='/product-tracking' element={<ProducttrackingPage></ProducttrackingPage>}>
+  <Route path='/admin/orderlist' element={<OrderList/>}>
 
   </Route>
   

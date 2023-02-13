@@ -23,6 +23,7 @@ let con = mysql.createConnection({
     con.query("CREATE TABLE IF NOT EXISTS productreview(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,reviewername TEXT,rating TEXT,review TEXT,token TEXT);")
 
     con.query("CREATE TABLE IF NOT EXISTS babysitter(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,profilepic TEXT,phone TEXT,education TEXT,experience TEXT,details TEXT,age TEXT,gender TEXT,email TEXT,pass TEXT);")
+    con.query("CREATE TABLE IF NOT EXISTS orderlist(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,img TEXT,productname TEXT,totalprice TEXT,price TEXT,quantity TEXT,buyeraddress TEXT,buyername TEXT,buyernumber TEXT);")
 
     
   });
@@ -178,6 +179,18 @@ exports.searchforit=async(keyword,page)=>{
 }
 
 
+exports.receiveOrder=async(buyeraddress,list,buyername,buyernumber)=>{
+  let data=[]
+  for(d of list){
+    let p=await getData('SELECT * FROM product')
+    data.push({buyeraddress,quantity:d.quantity})
+  }
+}
+exports.loadorderlist=async()=>{
+  let cmd='SELECT * FROM orderlist';
+  let data=await getData(cmd,[])
+  return data;
+}
 
 
 exports.addreview=async(star,comment,personname,productid,token)=>{

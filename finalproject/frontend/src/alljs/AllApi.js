@@ -135,3 +135,29 @@ exports.submitProductReview=async (star,comment,productid)=>{
     });
     return await res.json();
 }
+
+
+exports.submitOrder=async (address)=>{
+    let carts=JSON.parse(localStorage.getItem('cartitem'))
+    let keys=Object.keys(carts)
+    let req=[]
+    for(let i=0;i<keys.length;i++){
+        req.push({id:carts[keys[i]].id,quantity:carts[keys[i]].quantity})
+    }
+
+    let res=await fetch(hostname+'/api/submitorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({'data':req,token:localStorage.getItem('token')}),
+    });
+    return await res.json();
+
+}
+
+exports.loadOrderList=async(username,password)=>{
+    let list=await fetch(hostname+'/api/loadorder',{
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({username,password})});
+return await list.json();
+}
