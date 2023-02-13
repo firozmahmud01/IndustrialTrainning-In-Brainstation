@@ -20,7 +20,7 @@ let con = mysql.createConnection({
     
     con.query("CREATE TABLE IF NOT EXISTS normaluser(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,email TEXT,pass TEXT,phone TEXT,token TEXT);")
     con.query("CREATE TABLE IF NOT EXISTS babyproduct(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,img TEXT,price TEXT,brand TEXT,pointmsg TEXT,details TEXT,rating INTEGER DEFAULT 0);")
-    con.query("CREATE TABLE IF NOT EXISTS productreview(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,reviewername TEXT,rating TEXT,review TEXT,token TEXT NOT NULL UNIQUE);")
+    con.query("CREATE TABLE IF NOT EXISTS productreview(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,reviewername TEXT,rating TEXT,review TEXT,token TEXT);")
 
     con.query("CREATE TABLE IF NOT EXISTS babysitter(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,profilepic TEXT,phone TEXT,education TEXT,experience TEXT,details TEXT,age TEXT,gender TEXT,email TEXT,pass TEXT);")
 
@@ -165,8 +165,24 @@ exports.uploadfood=async(name,img,prize,brand,pointmsg,details)=>{
   }
 
 }
+exports.searchforit=async(keyword,page)=>{
+
+  let cmd='SELECT uid,name,img,price,brand,rating FROM babyproduct WHERE name LIKE ? OR brand like ?;';
+  let data=await getData(cmd,["%"+keyword+"%",'%'+keyword+'%'])
+  let result=[]
+  for(let i=(page-1)*36;i<(36*page)&&i<data.length;i++){
+    let d=data[i];
+    result.push(new productitem(d.uid,d.name,d.img,d.price,d.rating,d.brand))
+  }
+  return {totalPages:(data.length/36).toFixed(0),results:result};
+}
+
+
+
 
 exports.addreview=async(star,comment,personname,productid,token)=>{
+  let dada=await getData('SELECT uid FROM productreview WHERE productid=? AND token=?;',[productid,token])
+  if(dada.length>0)return;
 let cmd='INSERT INTO productreview (productid,reviewername,rating,review,token) VALUES(?,?,?,?,?);'
 try{
 let res= await getData(cmd,[productid,personname,star,comment,token])

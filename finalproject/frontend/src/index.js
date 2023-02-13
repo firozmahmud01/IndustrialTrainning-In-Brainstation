@@ -18,7 +18,7 @@ import RatingPage from './alljs/rating'
 import ProducttrackingPage from './alljs/producttracking'
 import NotFound from './alljs/NotFound'
 import AdminUpload from './alljs/adminupload'
-import {AppBar, Avatar, Button, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Typography} from '@mui/material'
+import {AppBar, Avatar, Badge, Button, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Typography} from '@mui/material'
 import IconImage from './image/icon.png'
 import {Logout, Settings, ShoppingCart} from '@mui/icons-material';
 import { purple } from '@mui/material/colors';
@@ -83,7 +83,7 @@ function AvatarFunction(){
   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 >
 
-  <MenuItem onClick={()=>{handleClose();localStorage.removeItem('token');localStorage.removeItem('name');document.location.reload()}}>
+  <MenuItem onClick={()=>{handleClose();localStorage.removeItem('token');localStorage.removeItem('user');document.location.reload()}}>
     <ListItemIcon>
       <Logout fontSize="small" />
     </ListItemIcon>
@@ -111,18 +111,21 @@ root.render(
       <Typography sx={{cursor: 'pointer' }} onClick={()=>document.location='/'} variant='h6' color={"inherit"}>Kiddie Corner</Typography>
 
       <IconButton onClick={()=>document.location='/cart'} edge="end" style={{marginLeft:'auto'}}>
+      <Badge color='success' badgeContent={Object.keys(JSON.parse(localStorage.getItem('cartitem')||"{}")).length}>
         
         <ShoppingCart color='secondary'/>
         
+      </Badge>
       </IconButton>
-
       {(()=>{
         if(!localStorage.getItem('token')){
           return <Button onClick={()=>document.location="/login"} color="inherit" style={{marginLeft:'12px'}}>Login</Button>
       }else {
         return (<AvatarFunction/>)
       }})()}
-      
+      {(()=>{
+        if(localStorage.getItem('user'))return <Typography>Welcome back {localStorage.getItem('user')}</Typography>
+      })()}
     </Toolbar>
   </AppBar>
 </div>

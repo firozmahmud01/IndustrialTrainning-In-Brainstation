@@ -2,18 +2,19 @@
 
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Typography, Grid, CardMedia, Card, IconButton, Button, FormControl, Rating, FormHelperText, TextField} from '@mui/material';
+import { Typography, Grid, CardMedia, Card, IconButton, Button, FormControl, Rating, FormHelperText, TextField, cardActionAreaClasses} from '@mui/material';
 import {Add, ArrowBack, HorizontalRule} from '@mui/icons-material';
 import BabyBack from '../image/babyback.jpeg'
 import { getfooddetails, hostname, submitProductReview } from './AllApi';
+import { cartitem } from './ClassList';
 
 async function loadDetails(setData,id){
     let data=await getfooddetails(id);
-    console.log(data);
+    
     setData(data);
 }
-function QuantityDisplay(){
-    const [quatity,setQuantity]=useState(1);
+function QuantityDisplay({quantity,setQuantity}){
+    
 return (
     <Grid container>
 <Grid item xs={2} sx={{marginTop:'7px'}}>
@@ -21,15 +22,15 @@ return (
 </Grid>
 <Grid item xs={2}>
 <IconButton sx={{marginLeft:'50%'}}
-onClick={()=>setQuantity(quatity-1<1?1:quatity-1)}>
+onClick={()=>setQuantity(quantity-1<1?1:quantity-1)}>
     <HorizontalRule/>
 </IconButton>
 </Grid>
 <Grid item xs={2}>
-<Typography align='center' sx={{marginTop:'7px'}}>{quatity}</Typography>
+<Typography align='center' sx={{marginTop:'7px'}}>{quantity}</Typography>
 </Grid>
 <Grid item xs={2}>
-<IconButton onClick={()=>setQuantity(quatity+1)}>
+<IconButton onClick={()=>setQuantity(quantity+1)}>
     <Add/>
 </IconButton>
 </Grid>
@@ -39,8 +40,9 @@ onClick={()=>setQuantity(quatity-1<1?1:quatity-1)}>
 }
 
 
-function RightOfImage({name,rating,brand,prize,pointmsg,review}){
-    
+function RightOfImage({id,img,name,rating,brand,prize,pointmsg,review}){
+    const [quantity,setQuantity]=useState(1)
+    console.log(quantity)
     return (
         <Grid container>
                     <Grid item xs={12}>
@@ -59,10 +61,18 @@ function RightOfImage({name,rating,brand,prize,pointmsg,review}){
                         <Typography variant='h4' sx={{marginLeft:'30px'}} color="red" >৳ {prize}</Typography>
                     </Grid>
                     <Grid xs={12} item>
-                        <QuantityDisplay/>
+                        <QuantityDisplay quantity={quantity} setQuantity={setQuantity}/>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button fullWidth sx={{marginTop:'20px',marginRight:'30px'}} variant="contained">Add To Cart</Button>
+                        <Button fullWidth onClick={(e)=>{
+                            let cart=new cartitem(id,name,prize,quantity,img)
+                            let allitem=JSON.parse(localStorage.getItem('cartitem')||"{}")
+                            allitem[id]=cart
+                            localStorage.setItem('cartitem',JSON.stringify(allitem))
+                            alert("This item add to your cart successfully!")
+                            document.location='/';
+                        }}
+                         sx={{marginTop:'20px',marginRight:'30px'}} variant="contained">Add To Cart</Button>
                     </Grid>
                 </Grid>
     )
@@ -84,7 +94,7 @@ function PointSection({pointmsg}){
     </ul>);
 }
 
-function Upperside({img,rating,name,review,prize,pointmsg,brand}){
+function Upperside({id,img,rating,name,review,prize,pointmsg,brand}){
     return (
         <div style={{margin:'30px'}}>
         <Grid container spacing={2} >
@@ -98,7 +108,7 @@ function Upperside({img,rating,name,review,prize,pointmsg,brand}){
                 </Card>
             </Grid>
             <Grid item xs={6}>
-                <RightOfImage rating={rating} name={name} review={review} prize={prize} brand={brand} pointmsg={pointmsg}/>
+                <RightOfImage img={img} id={id} rating={rating} name={name} review={review} prize={prize} brand={brand} pointmsg={pointmsg}/>
             </Grid>
         
         </Grid>
@@ -159,7 +169,7 @@ export default function Main(){
     }
     return (
         <div>
-            <Upperside img={(data?.img)?hostname+'/images/'+data?.img:''} review={data?.reviews||[]} rating={data?.rating||'0'} brand={data?.brand||''} name={data?.name||''} prize={data?.prize||""} pointmsg={data?.pointmsg||''}/>
+            <Upperside id={data?.id||0} img={(data?.img)?hostname+'/images/'+data?.img:''} review={data?.reviews||[]} rating={data?.rating||'0'} brand={data?.brand||''} name={data?.name||''} prize={data?.prize||""} pointmsg={data?.pointmsg||''}/>
             <hr style={{marginTop:'60px'}}></hr>
             <Typography style={{margin:'30px'}} fullWidth>{data?.details}</Typography>
             <hr style={{marginTop:'60px'}}></hr>

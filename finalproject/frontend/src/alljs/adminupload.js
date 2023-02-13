@@ -56,7 +56,7 @@ const ProductForm = () => {
 }
     return (
         <form onSubmit={handleSubmit}>
-            <Typography variant='h3' sx={{margin:'10px'}}>Upload Food Details:</Typography>
+            <Typography variant='h3' sx={{margin:'10px'}}>Upload Product Details:</Typography>
           <Box m={2}>
             <TextField
             fullWidth

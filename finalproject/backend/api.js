@@ -1,5 +1,5 @@
 const express=require('express');
-const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood, addreview, checktoken } = require('./database');
+const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood, addreview, checktoken, searchforit } = require('./database');
 const r=express.Router()
 module.exports= r;
 
@@ -102,15 +102,7 @@ r.post('/signup',async(req,res)=>{
     })
 
 
-    r.get('/search',async(req,res)=>{
-        let {q}=req.query
-        if(!q){
-            res.json({status:'Something is missing'})
-            return 
-        }
-
-        
-    })
+   
 
     r.post('/addreview',async(req,res)=>{
         let {star,comment,reviewertoken,productid}=req.body
@@ -150,4 +142,21 @@ r.post('/signup',async(req,res)=>{
 
     })
 
+
+    r.get('/search',async(req,res)=>{
+        const {q,page}=req.query
+        
+        if(!q||!page){
+            res.json({status:'Something missing'})
+            return ;
+        }
+
+        let data=await searchforit(q,+page);
+        if(data){
+            res.json({status:'OK',data})
+        }else{
+            res.json({status:'Failed to search!'})
+        }
+
+    })
   

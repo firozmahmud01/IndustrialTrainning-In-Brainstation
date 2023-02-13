@@ -110,11 +110,14 @@ exports.getbabysitterdetails=async(id)=>{
 }
 
 
-exports.getsearch=async(query,filter)=>{
-    let res= await fetch(hostname+"/api/search?q="+query)
+exports.getsearch=async(q,page)=>{
+    const apiUrl = `/api/search?q=${q}&page=${page}`;
+    let res= await fetch(hostname+apiUrl)
     let d=await res.json()
     if(d.status=='OK'){
         return d.data
+    }else {
+        alert(d.status)
     }
 
 }

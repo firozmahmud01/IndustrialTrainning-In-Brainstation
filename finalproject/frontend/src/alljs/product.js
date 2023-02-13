@@ -1,43 +1,55 @@
-import { Button, Card, CardContent, CardMedia, Rating, Skeleton, TextField, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, Grid, Rating, Skeleton, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { getsearch, hostname } from './AllApi';
 
 
 
 
 
-function ProductItem(props) {
-  const { name, price, imageUrl, rating } = props;
-
-  return (
-    <Card >
-      <CardMedia image={imageUrl} title={name} />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          {name}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Price: {price}
-        </Typography>
-        <Rating value={rating} readOnly />
-      </CardContent>
-    </Card>
-  );
+function BabyFoodItem({id,name,prize,rating,img}){
+    
+  return(
+      <Card onClick={()=>{document.location="/product/details?p="+id}}
+       sx={{ maxWidth: 250,cursor: 'pointer' }}>
+          <CardMedia
+          sx={{ height: 130 }}
+          image={img}
+          title="name"
+          
+          />
+<CardContent>
+  <Grid container>
+      <Grid item xs={12}>
+  <Typography variant='h6'>{name}</Typography>
+  </Grid>
+  <Grid item xs={6}>
+  <Typography variant='body2'>{prize} ৳</Typography>
+  </Grid>
+  <Grid xs={6} item>
+      <Typography sx={{textAlign:'right'}}>{rating} ★</Typography>
+  </Grid>
+  </Grid>
+</CardContent>
+      </Card>
+  )
 }
 
 
 
 function ProductList(products) {
   
-
+if(!products)return [];
   return products.map((product) => (
-    <ProductItem
-      key={product.id}
+    <Grid xs={3} ms={2} key={product.id}>
+    <BabyFoodItem
+    id={product.id}
       name={product.name}
-      price={product.price}
-      imageUrl={product.imageUrl}
+      prize={product.prize}
+      img={hostname+'/images/'+product.img}
       rating={product.rating}
     />
+    </Grid>
   ));
 }
 
@@ -122,11 +134,11 @@ export default function SearchResults() {
     setCurrentPage(page);
     const q = searchParams.get("q") || "";
     setKeyword(q);
-    const apiUrl = `/api/search?q=${q}&page=${page}`;
+    
     setLoading(true);
-    fetch(apiUrl)
-      .then((response) => response.json())
+    getsearch(q,page)
       .then((data) => {
+        console.log(data)
         setResults(data.results);
         setTotalPages(data.totalPages);
         setLoading(false);
@@ -144,13 +156,16 @@ export default function SearchResults() {
           ))}
         </div>
       ) : (
-        <div>
-          {results.map((result) => (
-            <ProductItem key={result.id} {...result} />
-          ))}
-        </div>
+        <Grid container spacing={2}>
+          <Grid item xs={12}></Grid>
+          <Grid item xs={12}></Grid>
+          <Grid item xs={12}></Grid>
+          {ProductList(results)}
+          </Grid>
+          
       )}
       <Pagination totalPages={totalPages} currentPage={currentPage} />
     </div>
   );
 }
+

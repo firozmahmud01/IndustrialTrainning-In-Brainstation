@@ -65,9 +65,8 @@ exports.babysitterdetails=class{
     }
 }
 exports.cartitem=class{
-    constructor(id,productid,productname,prize,quantity,img){
+    constructor(id,productname,prize,quantity,img){
         this.id=id;
-        this.productid=productid;
         this.productname=productname;
         this.prize=prize;
         this.quantity=quantity;
