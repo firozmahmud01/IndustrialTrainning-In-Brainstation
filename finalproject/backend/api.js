@@ -1,5 +1,5 @@
 const express=require('express');
-const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood, addreview, checktoken, searchforit } = require('./database');
+const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood, addreview, checktoken, searchforit, registerdaycare } = require('./database');
 const r=express.Router()
 module.exports= r;
 
@@ -69,12 +69,12 @@ r.post('/signup',async(req,res)=>{
     })
 
     r.get('/babysitteritem',async(req,res)=>{
-        let {start,end}=req.query
-        if(!start||!end){
+        let {type}=req.query
+        if(!type){
             res.json({status:'Something is missing'})
             return 
         }
-        let data=await getbabysitteritem(start,end);
+        let data=await getbabysitteritem(type);
         if(data){
             res.json({status:'OK',data})
         }else{
@@ -160,3 +160,12 @@ r.post('/signup',async(req,res)=>{
 
     })
   
+    r.post('/registerdaycare',async(req,res)=>{
+        const {name, email, education, phone,experience,details,age,gender,type,img}=req.body;
+        let data=await registerdaycare(name, email, education, phone,experience,details,age,gender,type,img)
+        if(data){
+            res.json({status:'OK'})
+        }else{
+            res.json({status:'Failed to upload.'})
+        }
+    })

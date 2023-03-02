@@ -12,7 +12,8 @@ const Baby1 =require( '../image/tmpimage/baby1.jpeg')
 const Baby2 =require( '../image/tmpimage/baby2.jpeg')
 const Baby3 =require( '../image/tmpimage/baby3.jpeg')
 const Baby4 =require( '../image/tmpimage/baby4.jpeg')
-const Baby5 =require( '../image/tmpimage/baby5.jpeg')
+const Baby5 =require( '../image/tmpimage/baby5.jpeg');
+const { type } = require("@testing-library/user-event/dist/type");
 
 
 
@@ -72,6 +73,16 @@ exports.signupuser=async(email, password, name, phone)=>{
     return await res.json();
 }
 
+
+exports.registerbabysitter=async(name, email, education, phone,experience,details,age,gender,type,img)=>{
+    let res=await fetch(hostname+'/api/registerdaycare', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, education, phone,experience,details,age,gender,type,img}),
+    });
+    return await res.json();
+}
+
 exports.getfooddetails=async(productid)=>{
 
 
@@ -86,10 +97,10 @@ if(data.status=='OK'){
 }
 
 
-exports.getbabysitteritem=async(start,end)=>{
+exports.getbabysitteritem=async(type)=>{
 
 
-    let res=await fetch (hostname+'/api/babysitteritem?start='+start+"&end="+end)
+    let res=await fetch (hostname+'/api/babysitteritem?type='+type)
     let da=await res.json();
     if(da.status=="OK"){
         return da.data

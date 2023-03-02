@@ -207,7 +207,7 @@ function SitterItem({id,name,profilepic,education,experience,age,gender}){
         transition: 'transform 1s',
         border:'2px solid red'
         }}>
-                    <img style={{width:'20%',margin:'30px'}} src={profilepic}/>
+                    <img style={{width:'20%',margin:'30px'}} src={hostname+"/images/"+profilepic}/>
             <Grid container>
                 <Grid item xs={6} container>
                     <Grid item container sx={{marginLeft:'30px'}}>
@@ -249,26 +249,184 @@ function SitterItem({id,name,profilepic,education,experience,age,gender}){
                     </Grid>
                 </Grid>
 <Grid item xs={12}>
+
     <div style={{margin:'30px'}}>
-                 <Button variant='contained' sx={{marginLeft:'100%',
+                 <Button sx={{marginLeft:'100%',
                 transform:'translate(-100%)'}}
                 // onClick={()=>{document.location="/babysitter/details?q="+id}}
-                >Details</Button> 
+                ></Button> 
                 </div>
+                
+                </Grid>
+            </Grid>
+        </div>
+    )
+}
+function SitterItem2({id,name,profilepic,education,experience,age,gender}){
+    
+    return (
+        <div name='scarditem2' style={{
+        width:'100%',
+        position:'absolute',
+        top:0,
+        left:0,
+        transition: 'transform 1s',
+        border:'2px solid red'
+        }}>
+                    <img style={{width:'20%',margin:'30px'}} src={hostname+"/images/"+profilepic}/>
+            <Grid container>
+                <Grid item xs={6} container>
+                    <Grid item container sx={{marginLeft:'30px'}}>
+                        <Grid item xs={4}>
+                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Name:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography variant='h6' >{name}</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Experience:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography variant='h6' >{experience} {experience<=1?"year":'years'}</Typography>
+
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Education:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography variant='h6' >{education}</Typography>
+                            
+                        </Grid>
+                        
+                    </Grid>
+                </Grid>
+                <Grid xs={6} item container>
+                    <Grid item xs={3}>
+                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Age:</Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <Typography variant='h6' >{age}</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Gender:</Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <Typography variant='h6' >{gender}</Typography>
+                    </Grid>
+                </Grid>
+<Grid item xs={12}>
+    
+        <div style={{margin:'30px'}}>
+                 <Button sx={{marginLeft:'100%',
+                transform:'translate(-100%)'}}
+                // onClick={()=>{document.location="/babysitter/details?q="+id}}
+                ></Button> 
+                </div>
+                
+                </Grid>
+            </Grid>
+        </div>
+    )
+}
+function SitterItem1({id,name,profilepic,education,experience,age,gender}){
+    
+    return (
+        <div name='scarditem1' style={{
+        width:'100%',
+        position:'absolute',
+        top:0,
+        left:0,
+        transition: 'transform 1s',
+        border:'2px solid red'
+        }}>
+                    <img style={{width:'20%',margin:'30px'}} src={hostname+"/images/"+profilepic}/>
+            <Grid container>
+                <Grid item xs={6} container>
+                    <Grid item container sx={{marginLeft:'30px'}}>
+                        <Grid item xs={4}>
+                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Name:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography variant='h6' >{name}</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Experience:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography variant='h6' >{experience} {experience<=1?"year":'years'}</Typography>
+
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Education:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography variant='h6' >{education}</Typography>
+                            
+                        </Grid>
+                        
+                    </Grid>
+                </Grid>
+                <Grid xs={6} item container>
+                    <Grid item xs={3}>
+                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Age:</Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <Typography variant='h6' >{age}</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Gender:</Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <Typography variant='h6' >{gender}</Typography>
+                    </Grid>
+                </Grid>
+<Grid item xs={12}>
+    
+        <div style={{margin:'30px'}}>
+                 <Button sx={{marginLeft:'100%',
+                transform:'translate(-100%)'}}
+                // onClick={()=>{document.location="/babysitter/details?q="+id}}
+                ></Button> 
+                </div>
+                
                 </Grid>
             </Grid>
         </div>
     )
 }
 async function loadBabySitterList(setData){
-    let data=await getbabysitteritem(0,5);
+    let data=await getbabysitteritem('babysitter');
     let d=[]
+    if(data.length==0)return;
     for(let i=0;i<data.length;i++){
         d.push(<SitterItem key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
     }
     setData(<div style={{position:'relative'}}>{d}</div>)
 
 }
+
+async function loadDayCare(setData){
+    let data=await getbabysitteritem('daycare');
+    let d=[]
+    if(data.length==0)return;
+    for(let i=0;i<data.length;i++){
+        d.push(<SitterItem1 key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
+    }
+    setData(<div style={{position:'relative'}}>{d}</div>)
+
+}
+
+async function loadHouseTutor(setData){
+    let data=await getbabysitteritem('housetutor');
+    let d=[]
+    if(data.length==0)return;
+    for(let i=0;i<data.length;i++){
+        d.push(<SitterItem2 key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
+    }
+    setData(<div style={{position:'relative'}}>{d}</div>)
+
+}
+
 
 function BabySitterList(){
     let curSlide=0;
@@ -301,7 +459,7 @@ return (
         </Grid>
         <Grid item xs={10}>
             { (()=>{
-                if(data&&data.length>0)return data;
+                if(data)return data;
                 return (<Skeleton animation="wave" width={"100%"} height={550}> 
                 
              </Skeleton>) })()}
@@ -335,6 +493,152 @@ return (
 function goToSlide(slide) {
     
     const slides = document.getElementsByName('scarditem');  
+    slides.forEach(
+      (s, i) => (s.style.transform = `translateX(${150 * (i - slide)}%)`)
+    );
+  };
+
+  function HouseTutor(){
+    let curSlide=0;
+    const [data,setData]=useState(undefined)
+    if(!data){
+        loadHouseTutor(setData)
+        
+    }
+    useEffect(()=>{
+        goToSlide2(0)
+    })
+return (
+    <Grid container spacing={1}>
+        <Grid item xs={12}>
+            <Typography variant='h5' sx={{margin:'40px'}}>House Tutor:</Typography>
+        </Grid>
+        <Grid item xs={1}>
+            <Fab onClick={()=>{
+    if (curSlide === 0) {
+        const slides = document.getElementsByName('scarditem2'); 
+      curSlide = slides.length - 1;
+    } else {
+      curSlide--;
+    }
+    goToSlide2(curSlide);
+    
+  }}
+            color='primary' sx={{marginLeft:'50%',transform:'translate(-50%)',marginTop:'170%'}}>
+                <ArrowBack/>
+            </Fab>
+        </Grid>
+        <Grid item xs={10}>
+            { (()=>{
+                if(data){
+                   
+                    return data;
+                }else{
+                return (<Skeleton animation="wave" width={"100%"} height={550}> 
+                
+             </Skeleton>)}
+             })()}
+        </Grid>
+        <Grid item xs={1}>
+            <Fab color='primary' sx={{
+                marginLeft:'50%',transform:'translate(-50%)',
+                marginTop:'170%'}}
+                onClick={()=>{
+                    const slides = document.getElementsByName('scarditem2'); 
+                    if (curSlide === slides.length - 1) {
+                      curSlide = 0;
+                    } else {
+                      curSlide++;
+                    }
+                
+                    goToSlide2(curSlide);
+                    
+                  }}>
+                <ArrowForward/>
+            </Fab>
+
+        </Grid>
+
+        
+        
+        
+    </Grid>
+)
+}
+function goToSlide2(slide) {
+    
+    const slides = document.getElementsByName('scarditem2');  
+    slides.forEach(
+      (s, i) => (s.style.transform = `translateX(${150 * (i - slide)}%)`)
+    );
+  };
+
+
+  function DayCareList(){
+    let curSlide=0;
+    const [data,setData]=useState(undefined)
+    if(!data){
+        loadDayCare(setData)
+    }
+    useEffect(()=>{
+        goToSlide1(0)
+    })
+return (
+    <Grid container spacing={1}>
+        <Grid item xs={12}>
+            <Typography variant='h5' sx={{margin:'40px'}}>Day Care:</Typography>
+        </Grid>
+        <Grid item xs={1}>
+            <Fab onClick={()=>{
+    if (curSlide === 0) {
+        const slides = document.getElementsByName('scarditem1'); 
+      curSlide = slides.length - 1;
+    } else {
+      curSlide--;
+    }
+    goToSlide1(curSlide);
+    
+  }}
+            color='primary' sx={{marginLeft:'50%',transform:'translate(-50%)',marginTop:'170%'}}>
+                <ArrowBack/>
+            </Fab>
+        </Grid>
+        <Grid item xs={10}>
+            { (()=>{
+                if(data)return data;
+                return (<Skeleton animation="wave" width={"100%"} height={550}> 
+                
+             </Skeleton>) })()}
+        </Grid>
+        <Grid item xs={1}>
+            <Fab color='primary' sx={{
+                marginLeft:'50%',transform:'translate(-50%)',
+                marginTop:'170%'}}
+                onClick={()=>{
+                    const slides = document.getElementsByName('scarditem1'); 
+                    if (curSlide === slides.length - 1) {
+                      curSlide = 0;
+                    } else {
+                      curSlide++;
+                    }
+                
+                    goToSlide1(curSlide);
+                    
+                  }}>
+                <ArrowForward/>
+            </Fab>
+
+        </Grid>
+
+        
+        
+        
+    </Grid>
+)
+}
+function goToSlide1(slide) {
+    
+    const slides = document.getElementsByName('scarditem1');  
     slides.forEach(
       (s, i) => (s.style.transform = `translateX(${150 * (i - slide)}%)`)
     );
@@ -377,12 +681,36 @@ return (<div style={{display:'block',marginTop:'300px',width:'100%',height:'200p
 
 export default function Main(){
     return (
-        <div>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
             <SearchBar/>
+            </Grid>
+            <Grid item xs={12}>
             <BabyFoodDetails/>
+            </Grid>
+            <Grid item xs={12}>
             <BabyFoodList/>
+            </Grid>
+            <Grid item xs={12}>
             <BabySitterList/>
+            </Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}>
+            <DayCareList/>
+            </Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}>
+            <HouseTutor/>
+            </Grid>
+            <Grid item xs={12}>
+                
+            </Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}>
             <Footer/>
-        </div>
+            </Grid>
+            </Grid>
         )
     }

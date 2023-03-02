@@ -22,7 +22,7 @@ let con = mysql.createConnection({
     con.query("CREATE TABLE IF NOT EXISTS babyproduct(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,img TEXT,price TEXT,brand TEXT,pointmsg TEXT,details TEXT,rating INTEGER DEFAULT 0);")
     con.query("CREATE TABLE IF NOT EXISTS productreview(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,reviewername TEXT,rating TEXT,review TEXT,token TEXT);")
 
-    con.query("CREATE TABLE IF NOT EXISTS babysitter(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,profilepic TEXT,phone TEXT,education TEXT,experience TEXT,details TEXT,age TEXT,gender TEXT,email TEXT,pass TEXT);")
+    con.query("CREATE TABLE IF NOT EXISTS babysitter(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,profilepic TEXT,phone TEXT,education TEXT,experience TEXT,details TEXT,age TEXT,gender TEXT,email TEXT,pass TEXT,type TEXT);")
     con.query("CREATE TABLE IF NOT EXISTS orderlist(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,img TEXT,productname TEXT,totalprice TEXT,price TEXT,quantity TEXT,buyeraddress TEXT,buyername TEXT,buyernumber TEXT);")
 
     
@@ -30,6 +30,8 @@ let con = mysql.createConnection({
 
   });
 
+
+  
 
 async function getData(cmd,arg){
   let p= await new Promise((response,error)=>{
@@ -40,6 +42,17 @@ async function getData(cmd,arg){
   })
   return p;
   
+}
+
+exports.registerdaycare=async(name, email, education, phone,experience,details,age,gender,type,img)=>{
+  const cmd="INSERT INTO babysitter (name, email, education, phone,experience,details,age,gender,type,profilepic) VALUES(?, ?, ?, ?,?,?,?,?,?,?)"
+  try{
+    let image=await saveimage(img);
+    await getData(cmd,[name, email, education, phone,experience,details,age,gender,type,image])
+    return "OK"
+  }catch(e){
+    return ;
+  }
 }
 
 exports.checktoken=async(token)=>{
@@ -108,9 +121,9 @@ exports.getfooddetails=async(id)=>{
 
 
 
-exports.getbabysitteritem=async(start,end)=>{
-  let cmd='SELECT uid,profilepic,name,age,gender,education,experience FROM babysitter LIMIT ?, ?;'
-  let data=await getData(cmd,[Number(start),Number(end)])
+exports.getbabysitteritem=async(type)=>{
+  let cmd='SELECT uid,profilepic,name,age,gender,education,experience FROM babysitter WHERE type=?;'
+  let data=await getData(cmd,[type])
   let result=[]
   for (let i=0;i<data.length;i++){
     let d=data[i];

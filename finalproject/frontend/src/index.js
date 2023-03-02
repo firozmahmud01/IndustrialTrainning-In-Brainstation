@@ -146,7 +146,7 @@ root.render(
   <Route path='/worker/profile' element={<WorkerProfilePage />}>
 
   </Route>
-  <Route path='/worker/login' element={<WorkerLoginPage/>}>
+  <Route path='/worker/create' element={<WorkerLoginPage/>}>
 
   </Route>
   <Route path='/product' element={<ProductPage></ProductPage>}>
