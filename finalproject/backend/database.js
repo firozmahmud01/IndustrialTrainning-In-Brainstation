@@ -122,31 +122,15 @@ exports.getfooddetails=async(id)=>{
 
 
 exports.getbabysitteritem=async(type)=>{
-  let cmd='SELECT uid,profilepic,name,age,gender,education,experience FROM babysitter WHERE type=?;'
+  let cmd='SELECT * FROM babysitter WHERE type=?;'
   let data=await getData(cmd,[type])
-  let result=[]
-  for (let i=0;i<data.length;i++){
-    let d=data[i];
-    result.push(new babysitteritem(d.uid,d.name,d.profilepic,d.education,d.experience,d.age,d.gender))
+  
 
-  }
-
-  return result;
+  return data;
 
 }
 
-exports.getbabysitterdetails=async(id)=>{
-  let cmd='SELECT uid,profilepic,name,age,gender,education,experience,details FROM babysitter LIMIT ?, ?;'
-  let data=await getData(cmd,[+start,+end])
-  let result=[]
-  for (let i=0;i<data.length;i++){
-    let d=data[i];
-    result.push(new babysitterdetails(d.uid,d.name,d.profilepic,d.phone,d.education,d.experience,d.details,d.age,d.gender))
 
-  }
-
-  return result;
-}
 
 exports.getsearch=async(q,start,end)=>{
 

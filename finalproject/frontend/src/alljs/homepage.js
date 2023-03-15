@@ -196,7 +196,7 @@ return (
 
 }
 
-function SitterItem({id,name,profilepic,education,experience,age,gender}){
+function SitterItem({id,name,profilepic,education,experience,age,gender,email,details}){
     
     return (
         <div name='scarditem' style={{
@@ -207,7 +207,10 @@ function SitterItem({id,name,profilepic,education,experience,age,gender}){
         transition: 'transform 1s',
         border:'2px solid red'
         }}>
-                    <img style={{width:'20%',margin:'30px'}} src={hostname+"/images/"+profilepic}/>
+            <Card sx={{width:'150px',margin:'30px'}}>
+                <CardMedia sx={{height:'150px'}} image={hostname+"/images/"+profilepic}/>
+            </Card>
+                    
             <Grid container>
                 <Grid item xs={6} container>
                     <Grid item container sx={{marginLeft:'30px'}}>
@@ -247,22 +250,24 @@ function SitterItem({id,name,profilepic,education,experience,age,gender}){
                     <Grid item xs={9}>
                         <Typography variant='h6' >{gender}</Typography>
                     </Grid>
+                    <Grid item xs={3}>
+                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Email:</Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <Typography variant='h6' >{email}</Typography>
+                    </Grid>
                 </Grid>
-<Grid item xs={12}>
-
-    <div style={{margin:'30px'}}>
-                 <Button sx={{marginLeft:'100%',
-                transform:'translate(-100%)'}}
-                // onClick={()=>{document.location="/babysitter/details?q="+id}}
-                ></Button> 
-                </div>
-                
+                <Grid item xs={12}>
+                    <div style={{padding:'16px'}}>
+                    <Typography variant='h5'><b>Details:</b></Typography>
+                    <Typography sx={{marginLeft:'16px'}} variant='h6'>{details}</Typography>
+                    </div>
                 </Grid>
             </Grid>
         </div>
     )
 }
-function SitterItem2({id,name,profilepic,education,experience,age,gender}){
+function SitterItem2({id,email,details,name,profilepic,education,experience,age,gender}){
     
     return (
         <div name='scarditem2' style={{
@@ -273,7 +278,9 @@ function SitterItem2({id,name,profilepic,education,experience,age,gender}){
         transition: 'transform 1s',
         border:'2px solid red'
         }}>
-                    <img style={{width:'20%',margin:'30px'}} src={hostname+"/images/"+profilepic}/>
+                    <Card sx={{width:'150px',margin:'30px'}}>
+                <CardMedia sx={{height:'150px'}} image={hostname+"/images/"+profilepic}/>
+            </Card>
             <Grid container>
                 <Grid item xs={6} container>
                     <Grid item container sx={{marginLeft:'30px'}}>
@@ -313,22 +320,24 @@ function SitterItem2({id,name,profilepic,education,experience,age,gender}){
                     <Grid item xs={9}>
                         <Typography variant='h6' >{gender}</Typography>
                     </Grid>
+                    <Grid item xs={3}>
+                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Email:</Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <Typography variant='h6' >{email}</Typography>
+                    </Grid>
                 </Grid>
-<Grid item xs={12}>
-    
-        <div style={{margin:'30px'}}>
-                 <Button sx={{marginLeft:'100%',
-                transform:'translate(-100%)'}}
-                // onClick={()=>{document.location="/babysitter/details?q="+id}}
-                ></Button> 
-                </div>
-                
+                <Grid item xs={12}>
+                    <div style={{padding:'16px'}}>
+                    <Typography variant='h5'><b>Details:</b></Typography>
+                    <Typography sx={{marginLeft:'16px'}} variant='h6'>{details}</Typography>
+                    </div>
                 </Grid>
             </Grid>
         </div>
     )
 }
-function SitterItem1({id,name,profilepic,education,experience,age,gender}){
+function SitterItem1({id,name,email,details,profilepic}){
     
     return (
         <div name='scarditem1' style={{
@@ -339,57 +348,50 @@ function SitterItem1({id,name,profilepic,education,experience,age,gender}){
         transition: 'transform 1s',
         border:'2px solid red'
         }}>
-                    <img style={{width:'20%',margin:'30px'}} src={hostname+"/images/"+profilepic}/>
+                    <Card sx={{width:'150px',margin:'30px'}}>
+                <CardMedia sx={{height:'150px'}} image={hostname+"/images/"+profilepic}/>
+            </Card>
             <Grid container>
                 <Grid item xs={6} container>
                     <Grid item container sx={{marginLeft:'30px'}}>
                         <Grid item xs={4}>
-                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Name:</Typography>
+                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Address:</Typography>
                         </Grid>
                         <Grid item xs={8}>
                             <Typography variant='h6' >{name}</Typography>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Experience:</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Typography variant='h6' >{experience} {experience<=1?"year":'years'}</Typography>
-
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Education:</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Typography variant='h6' >{education}</Typography>
-                            
-                        </Grid>
+                        
                         
                     </Grid>
                 </Grid>
                 <Grid xs={6} item container>
+                    
                     <Grid item xs={3}>
-                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Age:</Typography>
+                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Email:</Typography>
                     </Grid>
                     <Grid item xs={9}>
-                        <Typography variant='h6' >{age}</Typography>
+                        <Typography variant='h6' >{email}</Typography>
                     </Grid>
-                    <Grid item xs={3}>
-                        <Typography variant='h6' sx={{fontWeight:'bold'}}>Gender:</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <Typography variant='h6' >{gender}</Typography>
-                    </Grid>
-                </Grid>
+
 <Grid item xs={12}>
-    
-        <div style={{margin:'30px'}}>
-                 <Button sx={{marginLeft:'100%',
-                transform:'translate(-100%)'}}
-                // onClick={()=>{document.location="/babysitter/details?q="+id}}
-                ></Button> 
-                </div>
-                
-                </Grid>
+<div style={{padding:'16px'}}>
+                    <Typography variant='h5'><b>Details:</b></Typography>
+                    <Typography sx={{marginLeft:'16px'}} variant='h6'>{details}</Typography>
+                    </div>
+</Grid>
+
+
+                    <Grid item xs={12}>
+
+<div style={{margin:'30px'}}>
+             <Button sx={{marginLeft:'100%',
+            transform:'translate(-100%)'}}
+            // onClick={()=>{document.location="/babysitter/details?q="+id}}
+            ></Button> 
+            </div>
+            
+            </Grid>
             </Grid>
         </div>
     )
@@ -399,7 +401,7 @@ async function loadBabySitterList(setData){
     let d=[]
     if(data.length==0)return;
     for(let i=0;i<data.length;i++){
-        d.push(<SitterItem key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
+        d.push(<SitterItem email={data[i].email} details={data[i].details} key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
     }
     setData(<div style={{position:'relative'}}>{d}</div>)
 
@@ -410,7 +412,7 @@ async function loadDayCare(setData){
     let d=[]
     if(data.length==0)return;
     for(let i=0;i<data.length;i++){
-        d.push(<SitterItem1 key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
+        d.push(<SitterItem1 email={data[i].email} details={data[i].details} key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
     }
     setData(<div style={{position:'relative'}}>{d}</div>)
 
@@ -421,7 +423,7 @@ async function loadHouseTutor(setData){
     let d=[]
     if(data.length==0)return;
     for(let i=0;i<data.length;i++){
-        d.push(<SitterItem2 key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
+        d.push(<SitterItem2 details={data[i].details} email={data[i].email} key={data[i].id} id={data[i].id} name={data[i].name} profilepic={data[i].profilepic} education={data[i].education} experience={data[i].experience} age={data[i].age} gender={data[i].gender}/>)
     }
     setData(<div style={{position:'relative'}}>{d}</div>)
 
@@ -681,7 +683,7 @@ return (<div style={{display:'block',marginTop:'300px',width:'100%',height:'200p
 
 export default function Main(){
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
             <Grid item xs={12}>
             <SearchBar/>
             </Grid>
@@ -691,17 +693,17 @@ export default function Main(){
             <Grid item xs={12}>
             <BabyFoodList/>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{marginTop:'32px'}}>
             <BabySitterList/>
             </Grid>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{marginTop:'32px'}}>
             <DayCareList/>
             </Grid>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{marginTop:'32px'}}>
             <HouseTutor/>
             </Grid>
             <Grid item xs={12}>

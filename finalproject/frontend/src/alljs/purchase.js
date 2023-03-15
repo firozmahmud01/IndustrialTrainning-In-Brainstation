@@ -25,6 +25,7 @@ export default function PurchaseForm() {
     if(data.status=='OK'){
         alert("We have received your order!")
         localStorage.setItem('cartitem',"{}")
+        document.location='/'
     }else{
         alert(data.status);
     }

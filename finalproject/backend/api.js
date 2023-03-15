@@ -169,3 +169,17 @@ r.post('/signup',async(req,res)=>{
             res.json({status:'Failed to upload.'})
         }
     })
+
+    r.post('/submitorder',async(req,res)=>{
+        const {data,token}=req.body;
+        if(!data||!token){
+            res.json({status:'Failed to proccess'})
+            return ;
+        }
+        let da='OK';
+        if(da){
+            res.json({status:'OK'})
+        }else{
+            res.json({status:'Failed to request.'})
+        }
+    })

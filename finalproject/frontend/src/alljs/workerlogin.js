@@ -62,7 +62,7 @@ const Signup = () => {
         }}>
             
             <form onSubmit={handleSubmit}>
-            <Typography>Your Image:</Typography>
+            <Typography>{type=='daycare'?'Your Institute':"Your"} Image:</Typography>
             <TextField
                 fullWidth
                 value={productImage}
@@ -74,8 +74,16 @@ const Signup = () => {
                 }}
                 
             />
+            <br></br>
+            <Select sx={{marginTop:'20px'}} value={type} onChange={e=>{setType(e.target.value)}}>
+                        <MenuItem value="housetutor">House Tutor</MenuItem>
+                        <MenuItem value="daycare">Day Care</MenuItem>
+                        <MenuItem value="babysitter">Baby Sitter</MenuItem>
+                    </Select>
+                    <br></br>
+                    <br></br>
                 <TextField
-                    label="Name"
+                    label={type=='daycare'?'Address':"Name"}
                     type="text"
                     value={name}
                     
@@ -96,6 +104,7 @@ const Signup = () => {
                     helperText={emailError}
                 />
                 <br />
+                {type!='daycare'&&(<div>
                 <TextField
                     label="Education"
                     sx={{marginTop:'20px'}}
@@ -106,6 +115,8 @@ const Signup = () => {
                     
                 />
                 <br />
+
+
                 <TextField
                     label="Phone Number"
                     type="tel"
@@ -127,6 +138,9 @@ const Signup = () => {
                    
 
                     />
+                    </div>)}
+
+
                     <TextField
                     label="Details"
                     sx={{marginTop:'20px'}}
@@ -136,6 +150,8 @@ const Signup = () => {
                     
 
                     />
+
+                    {type!='daycare'&&(<div>
                     <TextField
                     label="Age"
                     sx={{marginTop:'20px'}}
@@ -155,11 +171,8 @@ const Signup = () => {
                    
 
                     />
-                    <Select sx={{marginTop:'20px'}} value={type} onChange={e=>{setType(e.target.value)}}>
-                        <MenuItem value="housetutor">House Tutor</MenuItem>
-                        <MenuItem value="daycare">Day Care</MenuItem>
-                        <MenuItem value="babysitter">Baby Sitter</MenuItem>
-                    </Select>
+                    </div>)}
+                    
                     <br />
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     <Button sx={{marginTop:'20px',marginLeft:'50%',transform:'translateX(-50%)'}} type="submit" variant="contained" color="primary">
