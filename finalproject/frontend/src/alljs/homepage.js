@@ -337,7 +337,7 @@ function SitterItem2({id,email,details,name,profilepic,education,experience,age,
         </div>
     )
 }
-function SitterItem1({id,name,email,details,profilepic}){
+function SitterItem1({id,name,email,details,profilepic,education}){
     
     return (
         <div name='scarditem1' style={{
@@ -354,11 +354,19 @@ function SitterItem1({id,name,email,details,profilepic}){
             <Grid container>
                 <Grid item xs={6} container>
                     <Grid item container sx={{marginLeft:'30px'}}>
+                    <Grid item xs={4}>
+                            <Typography variant='h6' sx={{fontWeight:'bold'}}>Name:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography variant='h6' >{name}</Typography>
+                        </Grid>
+
+
                         <Grid item xs={4}>
                             <Typography variant='h6' sx={{fontWeight:'bold'}}>Address:</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <Typography variant='h6' >{name}</Typography>
+                            <Typography variant='h6' >{education}</Typography>
                         </Grid>
                         
                         
@@ -693,17 +701,17 @@ export default function Main(){
             <Grid item xs={12}>
             <BabyFoodList/>
             </Grid>
-            <Grid item xs={12} sx={{marginTop:'32px'}}>
+            <Grid item xs={12} sx={{marginTop:'64px'}}>
             <BabySitterList/>
             </Grid>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
-            <Grid item xs={12} sx={{marginTop:'32px'}}>
+            <Grid item xs={12} sx={{marginTop:'64px'}}>
             <DayCareList/>
             </Grid>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
-            <Grid item xs={12} sx={{marginTop:'32px'}}>
+            <Grid item xs={12} sx={{marginTop:'64px'}}>
             <HouseTutor/>
             </Grid>
             <Grid item xs={12}>

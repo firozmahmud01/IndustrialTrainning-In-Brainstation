@@ -12,6 +12,12 @@ app.use('/images',express.static('images'))
 
 
 
+
+
 app.use('/api',AllApi);
 app.listen(8080);
+
+
+
+
 

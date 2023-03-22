@@ -1,7 +1,8 @@
 let crypto = require('crypto');
 let mysql = require('mysql');
 let fs=require("fs")
-let {productitem, productdetails, reviewitem, babysitteritem, babysitterdetails}= require('./ClassList')
+let {productitem, productdetails, reviewitem, babysitteritem, babysitterdetails}= require('./ClassList');
+const { sendmail } = require('./mailsender');
 let con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -18,7 +19,8 @@ let con = mysql.createConnection({
       }
       con.query("USE Baby");
     
-    con.query("CREATE TABLE IF NOT EXISTS normaluser(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,email TEXT,pass TEXT,phone TEXT,token TEXT);")
+    con.query("CREATE TABLE IF NOT EXISTS normaluser(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,email TEXT,pass TEXT,phone TEXT,token TEXT,varified INTEGER DEFAULT 0,vcode INTEGER);")
+    
     con.query("CREATE TABLE IF NOT EXISTS babyproduct(uid INTEGER PRIMARY KEY AUTO_INCREMENT,name TEXT,img TEXT,price TEXT,brand TEXT,pointmsg TEXT,details TEXT,rating INTEGER DEFAULT 0);")
     con.query("CREATE TABLE IF NOT EXISTS productreview(uid INTEGER PRIMARY KEY AUTO_INCREMENT,productid INTEGER,reviewername TEXT,rating TEXT,review TEXT,token TEXT);")
 
@@ -64,6 +66,17 @@ exports.checktoken=async(token)=>{
     return undefined;
   }
 }
+exports.verifynumber=async(id)=>{
+  const cmd="SELECT uid FROM normaluser WHERE vcode=?;"
+
+  let data=await getData(cmd,[id])
+  if(data&&data[0]?.uid){
+    await getData('UPDATE normaluser SET varified=1 WHERE uid=?',[data[0].uid] );
+    return 'OK'
+  }else{
+    return undefined;
+  }
+}
 exports.createUser=async(name,email,pass,phone)=>{
   let upass=crypto.createHash('sha256').update(pass).digest('base64');
   const cmd="SELECT uid FROM normaluser WHERE email=?;"
@@ -72,16 +85,23 @@ exports.createUser=async(name,email,pass,phone)=>{
   if((data&&data[0]?.uid)||data?.uid){
     return "This email already exists.";
   }else{
-    await getData("INSERT INTO normaluser (name, email, pass, phone) VALUES (?,?,?,?);",[name,email,upass,phone])
+    let code=await sendMainMail(email)
+    await getData("INSERT INTO normaluser (name, email, pass, phone, vcode) VALUES (?,?,?,?,?);",[name,email,upass,phone,code])
     return "OK"
   }
 
+}
+
+async function sendMainMail(mail){
+  let number=Math.floor((Math.random()*100000)+10000);
+  await sendmail(mail,'Please visit this url to verify your account:\nhttp://localhost:8080/api/verify?id='+number);
+  return number;
 }
 exports.checkauth=async(user,pass)=>{
     let upass=crypto.createHash('sha256').update(pass).digest('base64');
     let salt = crypto.randomBytes(27).toString('hex'); 
     console.log(user,upass)
-    const cmd="SELECT uid,name FROM normaluser WHERE email=? AND pass=?;"
+    const cmd="SELECT uid,name FROM normaluser WHERE email=? AND pass=? AND varified=1;"
     let data=await getData(cmd,[user,upass])
     if((data&&data[0]?.uid)||data?.uid){
       await getData("UPDATE normaluser SET token=? WHERE uid=?;",[salt,data[0].uid])

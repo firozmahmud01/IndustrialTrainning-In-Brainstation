@@ -1,5 +1,5 @@
 const express=require('express');
-const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood, addreview, checktoken, searchforit, registerdaycare } = require('./database');
+const { checkauth, createUser, getfoodlist, getfooddetails, getbabysitterdetails, getbabysitteritem, uploadfood, addreview, checktoken, searchforit, registerdaycare, verifynumber } = require('./database');
 const r=express.Router()
 module.exports= r;
 
@@ -29,7 +29,7 @@ r.post('/signup',async(req,res)=>{
 
     let data=await createUser(name,email,password,phone);
     if(data=='OK'){
-        res.json({status:data,message:'You can now login with your data'});
+        res.json({status:data,message:'Check your mail for verification!!!'});
     }else{
         res.json({status:data});
     }
@@ -179,6 +179,21 @@ r.post('/signup',async(req,res)=>{
         let da='OK';
         if(da){
             res.json({status:'OK'})
+        }else{
+            res.json({status:'Failed to request.'})
+        }
+    })
+
+
+    r.get('/verify',async(req,res)=>{
+        const {id}=req.query;
+        if(!id){
+            res.json({status:'Failed to proccess'})
+            return ;
+        }
+        let da=await verifynumber(id);
+        if(da){
+            res.send("Thank you!Now you can login")
         }else{
             res.json({status:'Failed to request.'})
         }

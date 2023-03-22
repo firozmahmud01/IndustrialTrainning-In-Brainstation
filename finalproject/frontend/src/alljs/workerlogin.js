@@ -83,7 +83,7 @@ const Signup = () => {
                     <br></br>
                     <br></br>
                 <TextField
-                    label={type=='daycare'?'Address':"Name"}
+                    label="Name"
                     type="text"
                     value={name}
                     
@@ -104,9 +104,8 @@ const Signup = () => {
                     helperText={emailError}
                 />
                 <br />
-                {type!='daycare'&&(<div>
                 <TextField
-                    label="Education"
+                    label={type=='daycare'?'Address':"Education"}
                     sx={{marginTop:'20px'}}
                     
                     value={education}
@@ -115,6 +114,8 @@ const Signup = () => {
                     
                 />
                 <br />
+                {type!='daycare'&&(<div>
+                
 
 
                 <TextField
